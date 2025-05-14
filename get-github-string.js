@@ -88,7 +88,7 @@ export async function getSnippet(lang) {
     try {
         selectedFile = null;
         language = lang
-        console.log(`Searching repositories for language: ${language}...`);
+        // console.log(`Searching repositories for language: ${language}...`);
 
         reveal = document.getElementById('reveal');
         reveal.style.display = 'none';
@@ -116,7 +116,7 @@ export async function getSnippet(lang) {
 
         // Pick a random repo
         repo = repos[getRandomInt(repos.length)];
-        console.log(`Selected repository: ${repo.full_name}`);
+        // console.log(`Selected repository: ${repo.full_name}`);
 
         const owner = repo.owner.login;
         const repoName = repo.name;
