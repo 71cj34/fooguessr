@@ -38,7 +38,7 @@ function pulseElement(id, color, bgcolor) {
         delete el.dataset.pulseTimeout;
     }, pulseDuration);
 
-    el.dataset.pulseTimeout = colorTimeout; // Store the timeout ID
+    el.dataset.pulseTimeout = colorTimeout;
 
     // clear transition after pulse duration + transition time
     const transitionTimeout = setTimeout(() => {

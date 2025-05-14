@@ -59,11 +59,9 @@ function createTable() {
 
   let html = '<table border="1" cellspacing="0" cellpadding="4">\n';
 
-  // Add top header row with "Expertise" spanning all level columns
   html += '  <thead>\n';
   html += '    <tr><th style="background-color:black"></th><th colspan="' + levelsCount + '" style="text-align:center;">Expertise</th></tr>\n';
 
-  // Header row for Language and Level 1..N
   html += '    <tr><th>Language</th>';
 //   for (let i = 1; i <= levelsCount; i++) {
 //     html += `<th>Level ${i}</th>`;
@@ -72,11 +70,10 @@ function createTable() {
   html += '</tr>\n';
   html += '  </thead>\n';
 
-  // body rows
   html += '  <tbody>\n';
 
   for (const lang of allLangs) {
-    const lvl = langToLevel.get(lang); // language's own level
+    const lvl = langToLevel.get(lang);
 
     html += `    <tr><td>${lang}</td>`;
 

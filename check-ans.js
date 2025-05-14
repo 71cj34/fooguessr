@@ -10,16 +10,16 @@ function youWin() {
 
 @keyframes pulseGreen {
   0% {
-    color: initial; /* Or your original background color */
-    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); /* No glow initially */
+    color: initial;
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
   }
   50% {
-    color: rgba(0, 255, 0, 0.5); /* Semi-transparent green */
-    box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); /* Expanding glow */
+    color: rgba(0, 255, 0, 0.5);
+    box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
   }
   100% {
-    color: initial; /* Back to original */
-    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); /* No glow */
+    color: initial;
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
   }
 }
 
