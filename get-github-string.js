@@ -307,6 +307,37 @@ function normalizeIndentation(lines) {
   });
 }
 
+function charSimilarity(strings) {
+    if (!strings || strings.length === 0) {
+    return true; // Empty array is considered consistent
+  }
+
+  const firstCharacters = strings.map(str => {
+    if (!str) return null; // Handle empty strings if needed (optional)
+    return str.charAt(0);
+  });
+
+  const validFirstCharacters = firstCharacters.filter(char => char !== null && char !== '' && !/\s/.test(char));
+
+  if (validFirstCharacters.length === 0) {
+      return true; // if the array contains either null or empty strings or whitespace
+  }
+
+  const leadingChar = validFirstCharacters[0];  // The first valid leading character.
+
+  let count = 0;
+  for (const char of validFirstCharacters) {
+    if (char === leadingChar) {
+      count++;
+    }
+  }
+  
+
+  const percentage = (count / validFirstCharacters.length) * 100;
+
+  return percentage >= 60;
+}
+
   // Pick 10 consecutive lines from file content (random offset)
   function pickConsecutiveLines(text, count) {
     const maskedTerms = [language, ...languageExtensions[language]];
@@ -319,9 +350,24 @@ function normalizeIndentation(lines) {
       // If not enough lines, return all
       return [lines, `1 - ${lines.length}`];
     } else {
-      const startIndex = getRandomInt(lines.length - count + 1);
-      pre.setAttribute("data-start", startIndex)
-      return [lines.slice(startIndex, startIndex + count), `${startIndex+1} - ${startIndex+1 + count}`];
+      let i = 0;
+      let segment = [];
+      let startIndex = getRandomInt(lines.length - count + 1);
+      while (true) {
+            segment = [lines.slice(startIndex, startIndex + count), `${startIndex+1} - ${startIndex+1 + count}`];
+          if (charSimilarity(segment[0])) {
+          startIndex = getRandomInt(lines.length - count + 1);
+          i++;
+          if (i > 4) {
+            break
+          }
+        } else {
+          break
+        }
+
+      };
+      return segment;
+
     }
   }
 
