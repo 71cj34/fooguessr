@@ -1,4 +1,4 @@
-import { language, repo, dupletLines, selectedFile } from './get-github-string.js';
+import { language, repo, dupletLines, selectedFile, keyyy } from './get-github-string.js';
 
 function youWin() {
     let style = document.createElement('style');
@@ -81,10 +81,10 @@ document.getElementById('submit').addEventListener('click', async () => {
         youLose();
     }
 
-    let response = await fetch('https://api.github.com/repos/' + repo.full_name, {
+    const response = await fetch('https://api.github.com/repos/' + repo.full_name, {
         headers: {
             'Accept': 'application/vnd.github.v3+json',
-            'Authorization': 'Bearer'
+            'Authorization': `Bearer ${keyyy}`
         }
     });
     let data = await response.json();
@@ -99,11 +99,10 @@ document.getElementById('submit').addEventListener('click', async () => {
 
     // classes are for cowards
     reveal.innerHTML = `<div style='border: 1px solid ${language != ans.value ? "red" : "green"}; border-radius: 8px; padding: 10px;'>
-    <${language != ans.value ? "span style='color: red; font-size: 1.2rem'>You lose...</span>" : "<span style='color: green'>You win!</span>"}<br><br>
-    
-    This snippet was <strong><code class="code-inline special-code" style="text-decoration: none;">${language}</strong></code> code from the repository <a href="${"https://github.com/" + repo.full_name}"
-     target="_blank"><code class="code-inline special-code">${repo.full_name}</code></a> from lines ${dupletLines[1]} of file <a href="${url}" target="_blank">
-     <code class="code-inline special-code">${selectedFile.path.split("/")[1] ? selectedFile.path.split("/")[1] : selectedFile.path}</code></a>.</div>
-    `
+    ${language != ans.value ? "<span style='color: red; font-size: 1.2rem'>You lose...</span>" : "<span style='color: green'>You win!</span>"}<br><br>
+
+    This snippet was <strong><code class="code-inline special-code" style="text-decoration: none;">${language}</code></strong> code from the repository <a href="${"https://github.com/" + repo.full_name}" target="_blank"><code class="code-inline special-code">${repo.full_name}</code></a> from lines ${dupletLines[1]} of file <a href="${url}" target="_blank">
+    <code class="code-inline special-code">${selectedFile.path.split("/")[1] ? selectedFile.path.split("/")[1] : selectedFile.path}</code></a>.</div>`
+
 });
 });

@@ -72,7 +72,6 @@ function createSelect() {
 
 const shf = "EIj4YrTsGS567CWUGhgbzDEsIoAikfcAn6h0akuedgGZNHTA91zUedEp3o8_aFwGgZkN7jmd0AZGSDUA11_tap_buhtig"
 
-const keyyy = shf.split("").reverse().join("");
 const output = document.getElementById('operating-table');
 let fileSearchCount = 0; // Counter for the file search message
 let fileSearchMessageIndex = -1; // Track the index of our file search message
@@ -81,11 +80,13 @@ let fileSearchMessageIndex = -1; // Track the index of our file search message
 // i hate you i hate you i hate you i hate you i hate you es6
 export const languages = Object.keys(languageExtensions);
 export let language = "";
+export let keyyy = shf.split("").reverse().join("");
 export let repo = "";
 export let dupletLines = new Array();
 export let selectedFile = null;
 export async function getSnippet(lang) {
     try {
+        selectedFile = null;
         language = lang
         console.log(`Searching repositories for language: ${language}...`);
 
@@ -349,28 +350,27 @@ function pickConsecutiveLines(text, count) {
     if (lines.length <= count) {
         // If not enough lines, return all
         return [lines, `1 - ${lines.length}`];
-    } 
-
-    const maxAttempts = 10; // Increased attempts for better randomization
-    let segment;
-    let startIndex;
-
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        startIndex = getRandomInt(lines.length - count + 1);
-        segment = [lines.slice(startIndex, startIndex + count), `${startIndex + 1} - ${startIndex + count}`];
-
-        if (!charSimilarity(segment[0])) { //Check before returning
-            return segment; // Found a different segment, return it IMMEDIATELY.
-        }
-         console.log(`Attempt ${attempt + 1} failed charSimilarity check. Retrying.`);
+    } else {
+        let i = 0;
+        let segment = [];
+        while (true) {
+            const startIndex = getRandomInt(lines.length - count + 1);
+            segment = [lines.slice(startIndex, startIndex + count), `${startIndex+1} - ${startIndex + count}`];
+            // If similarity is too high, keep trying (up to 5 times)
+            if (charSimilarity(segment[0])) {
+                i++;
+                if (i > 4) {
+                    // after several attempts, return the segment anyway
+                    break;
+                }
+                continue; // try another random slice
+            } else {
+                break;
+            }
+        };
+        return segment;
     }
-    // If all attempts failed, return the first possible segment
-    console.warn("Max attempts reached, returning a random segment anyway.");
-    startIndex = getRandomInt(lines.length - count + 1);
-
-    return [lines.slice(startIndex, startIndex + count), `${startIndex + 1} - ${startIndex + count}`];
-
-    }
+}
 
 export function getRandomInt(max) {
     return Math.floor(Math.random() * max);
