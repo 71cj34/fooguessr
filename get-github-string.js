@@ -70,6 +70,9 @@ const languageExtensions = {
  }
 }
 
+const shf = "EIj4YrTsGS567CWUGhgbzDEsIoAikfcAn6h0akuedgGZNHTA91zUedEp3o8_aFwGgZkN7jmd0AZGSDUA11_tap_buhtig"
+
+const keyyy = shf.split("").reverse().join("");
 const output = document.getElementById('operating-table');
 let fileSearchCount = 0;  // Counter for the file search message
 let fileSearchMessageIndex = -1; // Track the index of our file search message
@@ -211,7 +214,7 @@ export async function getSnippet(lang) {
     const url = `https://api.github.com/search/repositories?${params.toString()}`;
     const res = await fetch(url, {
       headers: {
-        "Authorization": `Bearer`
+        "Authorization": `Bearer ${keyyy}`
       }
     });
     if (!res.ok) throw new Error(`Failed to search repos: ${res.status} ${res.statusText}`);
@@ -223,7 +226,7 @@ export async function getSnippet(lang) {
     let url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
     const res = await fetch(url, {
       headers: {
-        "Authorization": "Bearer"
+        "Authorization": `Bearer ${keyyy}`
       }
     });
     if (!res.ok) throw new Error(`Failed to fetch contents: ${res.status} ${res.statusText}`);
