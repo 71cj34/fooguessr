@@ -81,16 +81,16 @@ document.getElementById('submit').addEventListener('click', async () => {
         youLose();
     }
 
-    const response = await fetch('https://api.github.com/repos/' + repo.full_name, {
+    let response = await fetch('https://api.github.com/repos/' + repo.full_name, {
         headers: {
             'Accept': 'application/vnd.github.v3+json',
             'Authorization': 'Bearer'
         }
     });
-    const data = await response.json();
+    let data = await response.json();
     console.log(dupletLines);
-    const defaultBranch = data.default_branch;
-    const url = 'https://github.com/' + repo.full_name + '/tree/' + defaultBranch + '/' + selectedFile.path + "#L" + dupletLines[1].split(" - ")[0] + "-L" + dupletLines[1].split(" - ")[1];
+    let defaultBranch = data.default_branch;
+    let url = 'https://github.com/' + repo.full_name + '/tree/' + defaultBranch + '/' + selectedFile.path + "#L" + dupletLines[1].split(" - ")[0] + "-L" + dupletLines[1].split(" - ")[1];
     console.log(url);
 
 
