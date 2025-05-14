@@ -349,27 +349,28 @@ function pickConsecutiveLines(text, count) {
     if (lines.length <= count) {
         // If not enough lines, return all
         return [lines, `1 - ${lines.length}`];
-    } else {
-        let i = 0;
-        let segment = [];
-        let startIndex = getRandomInt(lines.length - count + 1);
-        while (true) {
-            segment = [lines.slice(startIndex, startIndex + count), `${startIndex+1} - ${startIndex+1 + count}`];
-            if (charSimilarity(segment[0])) {
-                startIndex = getRandomInt(lines.length - count + 1);
-                i++;
-                if (i > 4) {
-                    break
-                }
-            } else {
-                break
-            }
+    } 
 
-        };
-        return segment;
+    const maxAttempts = 10; // Increased attempts for better randomization
+    let segment;
+    let startIndex;
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        startIndex = getRandomInt(lines.length - count + 1);
+        segment = [lines.slice(startIndex, startIndex + count), `${startIndex + 1} - ${startIndex + count}`];
+
+        if (!charSimilarity(segment[0])) { //Check before returning
+            return segment; // Found a different segment, return it IMMEDIATELY.
+        }
+         console.log(`Attempt ${attempt + 1} failed charSimilarity check. Retrying.`);
+    }
+    // If all attempts failed, return the first possible segment
+    console.warn("Max attempts reached, returning a random segment anyway.");
+    startIndex = getRandomInt(lines.length - count + 1);
+
+    return [lines.slice(startIndex, startIndex + count), `${startIndex + 1} - ${startIndex + count}`];
 
     }
-}
 
 export function getRandomInt(max) {
     return Math.floor(Math.random() * max);
