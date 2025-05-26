@@ -71,6 +71,23 @@
         Report bugs/feature requests/issues on <a target="_blank" href="https://github.com/71cj34/fooguessr/issues">Github Issues</a>.
     </p>
 
+    <br>
+
+    
+    <div class="devlog">
+        <strong style="font-size: 1.75rem">DEVLOG</strong>
+        <hr style="margin-top: 0.5vh;">
+        <strong>May 25, 2025</strong>
+        <p>After forgetting about this project for 10 days, this will be publicly released. I am working on server-side authentication with 
+            <a href="https://developers.cloudflare.com/d1/">Cloudflare D1</a> (shoutout for being so generous btw) and a TypeScript serverside worker. This will allow you to sign in, save your scores, watch a leaderboard, 
+            and maybe even... multiplayer?</p>
+            <p>No promises!</p>
+        <strong>May 15, 2025</strong>
+        <p>Added a difficulty slider because my awesome beta testers found it too difficult. So did I. (I also forgot to commit these changes for a week lmao)</p>
+        <strong>May 14, 2025</strong>
+        <p>Mostly made in one day as a challenge. Finished version finished.</p>
+    </div>
+
     <br><br><br>
 
     <p class="footer">Released under MIT License. By Jason Cheng. Find source <a href="https://github.com/71cj34/fooguessr">here</a>.</p>
@@ -83,7 +100,7 @@
     <script src="https://jasoncheng.me/assets/switchfonts.js"></script>
 
     <script type="module">
-    import { getSnippet, getRandomInt, languages } from './get-github-string.js'; // Adjust path
+    import { getSnippet, getRandomInt, languages } from './get-github-string.js';
 
     document.getElementById('generateButton').addEventListener('click', async () => {
         console.log(languages);
