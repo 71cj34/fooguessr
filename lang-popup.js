@@ -5,27 +5,22 @@ const langPopup = document.getElementById('lang-popup');
   const modalClose = document.getElementById('modal-close');
 
   langPopup.addEventListener('click', () => {
-    // Show modal
+
     modal.classList.remove('modal-hidden');
     modal.classList.add('modal-visible');
-    // Prevent body scrolling
     document.body.classList.add('modal-open');
   });
 
   modalClose.addEventListener('click', () => {
-    // Hide modal
     modal.classList.remove('modal-visible');
     modal.classList.add('modal-hidden');
-    // Restore body scroll
     document.body.classList.remove('modal-open');
   });
 
-  // Optional: Clicking outside modal-content closes the modal
   modal.querySelector('.modal-overlay').addEventListener('click', () => {
     modalClose.click();
   });
 
-  // Optional: Close modal on ESC key press
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('modal-visible')) {
       modalClose.click();
@@ -77,7 +72,7 @@ function createTable() {
   html += '</tr>\n';
   html += '  </thead>\n';
 
-  // Body rows
+  // body rows
   html += '  <tbody>\n';
 
   for (const lang of allLangs) {

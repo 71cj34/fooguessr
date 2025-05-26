@@ -1,4 +1,3 @@
-// Map some common languages to typical file extensions
 let languageExtensions = new Array();
 let languageList = {
     0: {
