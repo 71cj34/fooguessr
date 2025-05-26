@@ -235,6 +235,7 @@ while (dirQueue.length > 0 && selectedFiles.length === 0) {
         const difficulty = getDifficultySelection("difficulty");
         const expertise = getDifficultySelection("expertise")
         let linesToSample;
+        let languageSet;
 
         switch (difficulty) {
             case "Easy":
@@ -244,6 +245,24 @@ while (dirQueue.length > 0 && selectedFiles.length === 0) {
                 linesToSample = 7;
                 break;
             case "Classic":
+            default:
+                linesToSample = 10;
+        }
+
+        switch (expertise) {
+            case "Beginner":
+                linesToSample = 15;
+                break;
+            case "Intermediate":
+                linesToSample = 7;
+                break;
+            case "Advanced":
+
+            case "Impossible":
+            
+            case "Impossible-er":
+                            
+            
             default:
                 linesToSample = 10;
         }
