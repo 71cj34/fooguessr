@@ -76,6 +76,17 @@ const output = document.getElementById('operating-table');
 let fileSearchCount = 0; // Counter for the file search message
 let fileSearchMessageIndex = -1; // Track the index of our file search message
 
+// New helper to get current difficulty selection
+function getDifficultySelection() {
+    const radios = document.getElementsByName('difficulty');
+    for (let radio of radios) {
+        if (radio.checked) {
+            return radio.value;
+        }
+    }
+    return "Classic"; // default fallback
+}
+
 
 // i hate you i hate you i hate you i hate you i hate you es6
 export const languages = Object.keys(languageExtensions);
@@ -87,8 +98,7 @@ export let selectedFile = null;
 export async function getSnippet(lang) {
     try {
         selectedFile = null;
-        language = lang
-        // console.log(`Searching repositories for language: ${language}...`);
+        language = lang;
 
         reveal = document.getElementById('reveal');
         reveal.style.display = 'none';
@@ -98,7 +108,6 @@ export async function getSnippet(lang) {
         let repos = [];
         let attempts = 0;
 
-        // Get some repos, try up to 5 pages randomly
         while (repos.length === 0 && attempts < 5) {
             const page = 1 + getRandomInt(5);
             try {
@@ -114,15 +123,11 @@ export async function getSnippet(lang) {
             return;
         }
 
-        // Pick a random repo
         repo = repos[getRandomInt(repos.length)];
-        // console.log(`Selected repository: ${repo.full_name}`);
-
         const owner = repo.owner.login;
         const repoName = repo.name;
 
-        // Breadth-first exploration of directories until we find a language file
-        const dirQueue = ['']; // start from root directory
+        const dirQueue = [''];
 
         while (dirQueue.length > 0 && selectedFile === null) {
             const currentPath = dirQueue.shift();
@@ -135,11 +140,8 @@ export async function getSnippet(lang) {
                 continue;
             }
 
-            // Check for language files in this directory
             const langFiles = filterFilesByLanguage(contents, language);
-            fileSearchCount++; // Increment counter
-
-            // Update / Add  "Finding matching language file in repository" message
+            fileSearchCount++;
 
             const fileSearchMessage = `\nFinding matching language file in repository (${fileSearchCount})...`;
             let currentText = output.innerText;
@@ -160,7 +162,6 @@ export async function getSnippet(lang) {
                 break;
             }
 
-            // If no language files, add subdirectories to queue
             const subDirs = filterDirectories(contents);
             for (const dir of subDirs) {
                 dirQueue.push(dir.path);
@@ -168,23 +169,37 @@ export async function getSnippet(lang) {
         }
 
         if (!selectedFile) {
-            // Reset the file search count & message index
             fileSearchCount = 0;
             fileSearchMessageIndex = -1;
-
-            output.innerHTML = `<span style='color: red'>'Error:', ${error.message}</span>`;
+            output.innerHTML = `<span style='color: red'>'Error:', No ${language} source files found in the repository.</span>`;
             console.error(`No ${language} source files found in the repository.`);
             return;
         }
 
-        // go fetch
         output.innerText += "\nFetching file content...";
         const content = await fetchFileContent(selectedFile);
 
         fileSearchCount = 0;
         fileSearchMessageIndex = -1;
-        output.innerHTML += "\nPicking <span style='color: #a24a4b'>10</span> consecutive lines...";
-        dupletLines = pickConsecutiveLines(content, 10);
+
+        // New difficulty reading logic
+        const difficulty = getDifficultySelection();
+        let linesToSample;
+
+        switch (difficulty) {
+            case "Easy":
+                linesToSample = 15;
+                break;
+            case "Hard":
+                linesToSample = 7;
+                break;
+            case "Classic":
+            default:
+                linesToSample = 10;
+        }
+
+        output.innerHTML += `\nPicking <span style='color: #a24a4b'>${linesToSample}</span> consecutive lines...`;
+        dupletLines = pickConsecutiveLines(content, linesToSample);
         let lines = dupletLines[0];
         if (lines.length === 0) {
             console.warn('Selected file is empty or has no lines.');
@@ -194,9 +209,7 @@ export async function getSnippet(lang) {
         output.innerText += "\nDone!";
         if (output) output.innerText = lines.join('\n');
 
-
     } catch (error) {
-        // Reset the file search count & message index
         fileSearchCount = 0;
         fileSearchMessageIndex = -1;
         console.error('Error:', error.message);
