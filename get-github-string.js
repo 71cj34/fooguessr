@@ -103,8 +103,8 @@ let fileSearchCount = 0; // Counter for the file search message
 let fileSearchMessageIndex = -1; // Track the index of our file search message
 
 // New helper to get current difficulty selection
-function getDifficultySelection() {
-    const radios = document.getElementsByName('difficulty');
+function getDifficultySelection(name) {
+    const radios = document.getElementsByName(name);
     for (let radio of radios) {
         if (radio.checked) {
             return radio.value;
@@ -232,7 +232,8 @@ while (dirQueue.length > 0 && selectedFiles.length === 0) {
         }
 
         // New difficulty reading logic
-        const difficulty = getDifficultySelection();
+        const difficulty = getDifficultySelection("difficulty");
+        const expertise = getDifficultySelection("expertise")
         let linesToSample;
 
         switch (difficulty) {

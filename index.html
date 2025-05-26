@@ -1,143 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<!--     <base href="https://jasoncheng.me/">
-    <meta charset="UTF-8"> -->
-    <link rel="shortcut icon" href="https://jasoncheng.me/img/stariconv2.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fooguessr</title>
-    <link rel="stylesheet" href="https://jasoncheng.me/fonts/fonts.css" />
-    <link rel="stylesheet" href="resize.css" />
-    <link rel="stylesheet" href="ds1_cloned.css" />
-    <link rel="stylesheet" href="https://jasoncheng.me/api/docs/code.css" />
-    <style>
-        code {
-            margin: 1.5rem 0;
-        }
-
-        .special-code  { display: inline-block; text-decoration: underline; }
-
-        select {
-            font-family: var(--text);
-            transform: scale(1.18);
-            transform-origin: left;
-        }
-        
-    </style>
-</head>
-<body>
-    <h1>FooGuessr</h1>
-    <p>
-        A <strong>browser-based game</strong> where you guess the programming language of a random snippet from Github based on just 10 lines of code.
-    </p>
-    <p>
-        Note that identifying features, more specifically things like the name of the language and its extensions, are censored with ██████. Can't make it too easy ;) 
-    </p>
-    <div class="app">
-        <div style="border-style: solid; border-width: 1px; max-width: fit-content; border-radius: 5px">
-            <div style="margin: 1em">
-                            <p><strong>Difficulty:</strong></p>
-            <label><input type="radio" name="difficulty" value="Easy">Easy</label>
-    <label><input type="radio" name="difficulty" value="Classic" checked>Classic</label>
-    <label><input type="radio" name="difficulty" value="Hard">Hard</label>
+   <head>
+      <!--     <base href="https://jasoncheng.me/">
+         <meta charset="UTF-8"> -->
+      <link rel="shortcut icon" href="https://jasoncheng.me/img/stariconv2.png" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Fooguessr</title>
+      <link rel="stylesheet" href="https://jasoncheng.me/fonts/fonts.css" />
+      <link rel="stylesheet" href="ds1_cloned.css" />
+            <link rel="stylesheet" href="resize.css" />
+      <link rel="stylesheet" href="https://jasoncheng.me/api/docs/code.css" />
+      <style>
+         code {
+         margin: 1.5rem 0;
+         }
+         .special-code  { display: inline-block; text-decoration: underline; }
+         select {
+         font-family: var(--text);
+         transform: scale(1.18);
+         transform-origin: left;
+         }
+      </style>
+   </head>
+   <body>
+      <h1>FooGuessr</h1>
+      <p>
+         A <strong>browser-based game</strong> where you guess the programming language of a random snippet from Github based on just 10 lines of code.
+      </p>
+      <p>
+         Note that identifying features, more specifically things like the name of the language and its extensions, are censored with ██████. Can't make it too easy ;) 
+      </p>
+      <div class="app">
+         <div style="display: flex; gap: 1rem;">
+            <div style="border-style: solid; border-width: 1px; max-width: fit-content; border-radius: 5px">
+               <div style="margin: 1em">
+                  <p><strong>Difficulty:</strong></p>
+                  <label><input type="radio" name="difficulty" value="Easy">Easy</label>
+                  <label><input type="radio" name="difficulty" value="Classic" checked>Classic</label>
+                  <label><input type="radio" name="difficulty" value="Hard">Hard</label>
+               </div>
+            </div>
+            <div style="border-style: solid; border-width: 1px; max-width: fit-content; border-radius: 5px">
+               <div style="margin: 1em">
+                  <p><strong>Expertise:</strong></p>
+                  <label><input type="radio" name="expertise" value="Beginner">Easy</label>
+                  <label><input type="radio" name="expertise" value="Intermediate" checked>Intermediate</label>
+                  <label><input type="radio" name="expertise" value="Advanced">Advanced</label>
+                  <label><input type="radio" name="expertise" value="Impossible">Impossible</label>
+                  <label><input type="radio" name="expertise" value="Impossible-er">These Aren't Even Languages</label>
+               </div>
             </div>
 
-            </div>
+         </div>
+            <button id="generateButton" class="button" style="transform: scale(0.9); transform-origin: top left">
+               <!-- <span class="shadow"></span> -->
+               <!-- <span class="edge"></span> -->
+               <div class="front">
+                  <span>Roll Snippet!</span>
+               </div>
+            </button>
+                           <br><br>
 
-        <button id="generateButton" class="button" style="transform: scale(0.9); transform-origin: top left">
-        
-        <!-- <span class="shadow"></span> -->
-        <!-- <span class="edge"></span> -->
-        <div class="front">
-            <span>Roll Snippet!</span>
-        </div>
-        <br><br>
-        </button>
-        <!-- <p id="rounds">ROUND <span id="round-1">x</span> OF <span id="round-2">x</span>:</p> -->
-        <pre data-start="1" class="line-numbers" id="pre" style="max-width: 95%; overflow-x: auto; white-space: nowrap;"><code class="code_block" id="operating-table" style="width: 100%; max-width: 100%;">Press the button above to start!</pre></code>
-
-        <div>
+         <!-- <p id="rounds">ROUND <span id="round-1">x</span> OF <span id="round-2">x</span>:</p> -->
+         <pre data-start="1" class="line-numbers" id="pre" style="max-width: 95%; overflow-x: auto; white-space: nowrap;"><code class="code_block" id="operating-table" style="width: 100%; max-width: 100%;">Press the button above to start!</code></pre>
+         <div>
             <select id="programmingLanguages" name="programmingLanguages">
             </select>
-        </div>
+         </div>
+         <button class="button" id="submit" style="transform: scale(1.1); transform-origin:top left">
+            <!-- <span class="shadow"></span> -->
+            <!-- <span class="edge"></span> -->
+            <div class="front">
+               <span>Submit Guess</span>
+            </div>
+         </button>
+         <br>
+         <p id="reveal"></p>
+      </div>
+      <div class="talk">
+<p><strong>Difficulty</strong> determines how many lines you get:</p>
+<ul>
+  <li>15 lines</li>
+  <li>10 lines</li>
+  <li>7 lines</li>
+</ul>
 
-        <button class="button" id="submit" style="transform: scale(1.1); transform-origin:top left">
-        <!-- <span class="shadow"></span> -->
-        <!-- <span class="edge"></span> -->
-        <div class="front">
-            <span>Submit Guess</span>
-        </div>
-        </button>
-        <br>
-        <p id="reveal"></p>
-
-    </div>
-    <div class="talk">
-        <p>
-            <strong>Difficulty</strong> is how many lines you get: 15, 10, and 7 respectively. <strong>Expertise</strong> is how many languages are allowed: 'Beginner' only has recognizable, distinct languages, 
-            'Intermediate' adds more ambiguous/tricky languages, 'Advanced' adds most of the 'popular' languages (if you played before the public release, this was the default setting!), 'Impossible', adds every 
-            regular language, especially more obscure ones, and 'These Aren't Even Languages' adds several markup/syntactical languages (eg. <span class="code-inline">Makefile</span>, <span class="code-inline">LaTeX</span>) to have
-            combine single language in the game.
-        </p>
-    <p>
-        Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I 
-        had heard of at some point for any reason. Kindly do not ask me to include Malbolge or whatever esolang conceived by programmers from the Siberian wilderness you personally champion.
-        (Brain▒▙█ is an exception because we &lt;3 Brain▟▒▀).
-    </p>
-    <p>
-        Report bugs/feature requests/issues on <a target="_blank" href="https://github.com/71cj34/fooguessr/issues">Github Issues</a>.
-    </p>
-
-    <br>
-
-    
-    <div class="devlog">
-        <strong style="font-size: 1.75rem">DEVLOG</strong>
-        <hr style="margin-top: 0.5vh;">
-        <strong>May 25, 2025</strong>
-        <p>After forgetting about this project for 10 days, this will be publicly released. I am working on server-side authentication with 
-            <a href="https://developers.cloudflare.com/d1/">Cloudflare D1</a> (shoutout Cloudflare for being so cheap btw) and a TypeScript serverside worker. This will allow you to sign in, save your scores, watch a leaderboard, 
-            and maybe even... multiplayer?</p>
+<p><strong>Expertise</strong> controls how many languages are allowed:</p>
+<ul>
+  <li><strong>Beginner:</strong> only recognizable, distinct languages</li>
+  <li><strong>Intermediate:</strong> adds more ambiguous/tricky languages</li>
+  <li><strong>Advanced:</strong> adds most of the popular languages (if you played before the public release, this was the default setting!)</li>
+  <li><strong>Impossible:</strong> adds every regular language, especially more obscure ones</li>
+  <li><strong>These Aren't Even Languages:</strong> adds several markup/syntactical languages (e.g., <span class="code-inline">Makefile</span>, <span class="code-inline">LaTeX</span>) to combine single language in the game</li>
+</ul>
+         <p>
+            Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I 
+            had heard of at some point for any reason. Kindly do not ask me to include Malbolge or whatever esolang conceived by programmers from the Siberian wilderness you personally champion.
+            (Brain▒▙█ is an exception because we &lt;3 Brain▟▒▀).
+         </p>
+         <p>
+            Report bugs/feature requests/issues on <a target="_blank" href="https://github.com/71cj34/fooguessr/issues">Github Issues</a>.
+         </p>
+         <br>
+         <div class="devlog">
+            <strong style="font-size: 1.75rem">DEVLOG</strong>
+            <hr style="margin-top: 0.5vh;">
+            <strong>May 25, 2025</strong>
+            <p>After forgetting about this project for 10 days, this will be publicly released. I am working on server-side authentication with 
+               <a href="https://developers.cloudflare.com/d1/">Cloudflare D1</a> (shoutout Cloudflare for being so cheap btw) and a TypeScript serverside worker. This will allow you to sign in, save your scores, watch a leaderboard, 
+               and maybe even... multiplayer?
+            </p>
             <p>No promises!</p>
-        <p>
-            List of misc. bug fixes/improvements:
-        </p>
-        <ul>
-            <li><strong>'Expertise' selector to switch how many languages are available.</strong></li>
-            <li><strong>27 new languages are now available (that's a lot!).</strong></li>
-            <li>Fixed issue where language files would fail for a mysterious reason</li>
-            <li><span class="code-inline">/src</span> directories are now prioritized, which should reduce depth-search times significantly</li>
-            <li>Added protections so that you will no longer get ""10-line snippets"" with lines of whitespace<ul>
-                <li>Specifically, empty lines now no longer count towards the line quota.</li>
-                <li>You can still get 10 lines of comments, though. That's just how the cookie crumbles ¯\_(ツ)_/¯</li>
-            </ul></li>
-            <li>Backtracking/recursive search as a failsafe for an invalid file</li>
-            <li>General cleaning up of code and UI</li>
-        </ul>
-        <strong>May 15, 2025</strong>
-        <p>Added a difficulty slider because my awesome beta testers found it too difficult. So did I. (I also forgot to commit these changes for a week lmao)</p>
-        <strong>May 14, 2025</strong>
-        <p>Mostly made in one day as a challenge. Finished version finished.</p>
-    </div>
-
-    <br><br><br>
-
-    <p class="footer">Released under MIT License. By Jason Cheng. Find source <a href="https://github.com/71cj34/fooguessr">here</a>.</p>
-    </div>
-    <button style="opacity: 0.8; transform-origin: right; transform: scale(0.8); color: black; border-style: solid; border-width: 1px; border-color: black" id="switch-fonts">
-        Switch Fonts
-    </button>
-    <!-- <script src="get-github-string.js"></script> -->
-    <script src="check-ans.js" type="module"></script>
-    <script src="https://jasoncheng.me/assets/switchfonts.js"></script>
-
-    <script type="module">
-    import { getSnippet, getRandomInt, languages } from './get-github-string.js';
-
-    document.getElementById('generateButton').addEventListener('click', async () => {
-        console.log(languages);
-      await getSnippet(languages[getRandomInt(languages.length)]);
-    });
-  </script>
-</body>
+            <p>
+               List of misc. bug fixes/improvements:
+            </p>
+            <ul>
+               <li><strong>'Expertise' selector to switch how many languages are available.</strong></li>
+               <li><strong>27 new languages are now available (that's a lot!).</strong></li>
+               <li>Fixed issue where language files would fail for a mysterious reason</li>
+               <li><span class="code-inline">/src</span> directories are now prioritized, which should reduce depth-search times significantly</li>
+               <li>
+                  Added protections so that you will no longer get ""10-line snippets"" with lines of whitespace
+                  <ul>
+                     <li>Specifically, empty lines now no longer count towards the line quota.</li>
+                     <li>You can still get 10 lines of comments, though. That's just how the cookie crumbles ¯\_(ツ)_/¯</li>
+                  </ul>
+               </li>
+               <li>Backtracking/recursive search as a failsafe for an invalid file</li>
+               <li>General cleaning up of code and UI</li>
+            </ul>
+            <strong>May 15, 2025</strong>
+            <p>Added a difficulty slider because my awesome beta testers found it too difficult. So did I. (I also forgot to commit these changes for a week lmao)</p>
+            <strong>May 14, 2025</strong>
+            <p>Mostly made in one day as a challenge. Finished version finished.</p>
+         </div>
+         <br><br><br>
+         <p class="footer">Released under MIT License. By Jason Cheng. Find source <a href="https://github.com/71cj34/fooguessr">here</a>.</p>
+      </div>
+      <button style="opacity: 0.8; transform-origin: right; transform: scale(0.8); color: black; border-style: solid; border-width: 1px; border-color: black" id="switch-fonts">
+      Switch Fonts
+      </button>
+      <!-- <script src="get-github-string.js"></script> -->
+      <script src="check-ans.js" type="module"></script>
+      <script src="https://jasoncheng.me/assets/switchfonts.js"></script>
+      <script type="module">
+         import { getSnippet, getRandomInt, languages } from './get-github-string.js';
+         
+         document.getElementById('generateButton').addEventListener('click', async () => {
+             console.log(languages);
+           await getSnippet(languages[getRandomInt(languages.length)]);
+         });
+      </script>
+   </body>
 </html>

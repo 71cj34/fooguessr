@@ -146,3 +146,44 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+  .app > div:first-child {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .app > div:first-child > div {
+    flex: 1 1 250px; /* Minimum 250px, grows if space */
+    min-width: 200px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+  }
+
+  /* Make labels block level for easier wrapping */
+  .app label {
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  /* Adjust button on small screens */
+  @media (max-width: 400px) {
+    #generateButton, #submit {
+      width: 100%;
+      transform: none !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+  body, html {
+    margin-left: 3vw;
+    margin-right: 3vw;
+  }
+}
+
+@media (max-width: 400px) {
+  body, html {
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
+}
