@@ -1,7 +1,7 @@
 // Map some common languages to typical file extensions
 const languageExtensions = {
     JavaScript: ['js', 'jsx', 'mjs', 'cjs', 'ts', 'typescript'],
-    AutoHotkey: ['.ahk'],
+    AutoHotkey: ['ahk'],
     Python: ['py'],
     Ruby: ['rb'],
     Java: ['java'],
@@ -156,46 +156,72 @@ export async function getSnippet(lang) {
         const dirQueue = [''];
         let selectedFiles = []; // Will hold up to 3 files of suitable language
 
-        while (dirQueue.length > 0 && selectedFiles.length === 0) {
-            const currentPath = dirQueue.shift();
-            let contents = [];
+while (dirQueue.length > 0 && selectedFiles.length === 0) {
+    const currentPath = dirQueue.shift();
+    let contents = [];
 
-            try {
-                contents = await fetchDirectoryContents(owner, repoName, currentPath);
-            } catch (e) {
-                console.warn(`Failed to fetch contents of ${currentPath}: ${e.message}`);
-                continue;
+    try {
+        contents = await fetchDirectoryContents(owner, repoName, currentPath);
+    } catch (e) {
+        console.warn(`Failed to fetch contents of ${currentPath}: ${e.message}`);
+        continue;
+    }
+
+    const langFiles = filterFilesByLanguage(contents, language);
+    fileSearchCount++;
+
+    const fileSearchMessage = `\nFinding matching language file in repository (${fileSearchCount})...`;
+    let currentText = output.innerText;
+
+    if (fileSearchMessageIndex !== -1) {
+        let errorLines = currentText.split('\n');
+        errorLines[fileSearchMessageIndex] = `Finding matching language file in repository (${fileSearchCount})...`;
+        output.innerText = errorLines.join('\n');
+    } else {
+        output.innerText += fileSearchMessage;
+        fileSearchMessageIndex = output.innerText.split('\n').length - 1;
+    }
+
+    if (langFiles.length > 0) {
+        fileSearchCount = 0;
+        fileSearchMessageIndex = -1;
+        // Pick up to 3 random files from langFiles
+        const shuffledFiles = langFiles.sort(() => 0.5 - Math.random());
+        selectedFiles = shuffledFiles.slice(0, 3);
+        break;
+    }
+
+    const subDirs = filterDirectories(contents);
+
+    // if at root level, prioritize /src
+    if (currentPath === '') {
+        // if src exists
+        const srcDirObj = subDirs.find(dir => dir.name.toLowerCase() === 'src');
+        if (srcDirObj) {
+            console.log("src found, queued up")
+            // Enqueue src directory first
+            dirQueue.unshift(srcDirObj.path);
+            // Enqueue the rest (except src)
+            for (const dir of subDirs) {
+                if (dir.name.toLowerCase() !== 'src') {
+                    dirQueue.push(dir.path);
+                }
             }
-
-            const langFiles = filterFilesByLanguage(contents, language);
-            fileSearchCount++;
-
-            const fileSearchMessage = `\nFinding matching language file in repository (${fileSearchCount})...`;
-            let currentText = output.innerText;
-
-            if (fileSearchMessageIndex !== -1) {
-                let errorLines = currentText.split('\n');
-                errorLines[fileSearchMessageIndex] = `Finding matching language file in repository (${fileSearchCount})...`;
-                output.innerText = errorLines.join('\n');
-            } else {
-                output.innerText += fileSearchMessage;
-                fileSearchMessageIndex = output.innerText.split('\n').length - 1;
-            }
-
-            if (langFiles.length > 0) {
-                fileSearchCount = 0;
-                fileSearchMessageIndex = -1;
-                // Pick up to 3 random files from langFiles
-                const shuffledFiles = langFiles.sort(() => 0.5 - Math.random());
-                selectedFiles = shuffledFiles.slice(0, 3);
-                break;
-            }
-
-            const subDirs = filterDirectories(contents);
+        } else {
+            console.log("no src found")
+            // No src directory, enqueue all normally
             for (const dir of subDirs) {
                 dirQueue.push(dir.path);
             }
         }
+    } else {
+        // Normal behavior, enqueue all sub dirs
+        for (const dir of subDirs) {
+            dirQueue.push(dir.path);
+        }
+    }
+}
+
 
         if (selectedFiles.length === 0) {
             fileSearchCount = 0;
@@ -337,14 +363,16 @@ function maskItems(text, mask) {
 
     const escapedTerms = mask.map(term => term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
 
+    const boundaryBefore = "(^|[ \\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
+    const boundaryAfter  = "($|[ \\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
+
     const regex = new RegExp(
-        `(?<=^|[ \.\n])(?:${escapedTerms.join('|')})(?=$|[ \n])`,
+        `${boundaryBefore}(?:${escapedTerms.join('|')})${boundaryAfter}`,
         'gi'
     );
 
-
-    const maskedText = text.replace(regex, (match) => {
-        return '█'.repeat(match.length);
+    const maskedText = text.replace(regex, (match, g1, g2) => {
+        return g1 + '█'.repeat(match.length - g1.length - g2.length) + g2;
     });
 
     return maskedText.split("ʥʥʥʥʥ");
