@@ -74,7 +74,6 @@ function youLose() {
 document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('submit').addEventListener('click', async () => {
     const ans = document.getElementById('programmingLanguages');
-    console.log("here")
     if (language == ans.value) {
         youWin();
     } else {
@@ -88,10 +87,8 @@ document.getElementById('submit').addEventListener('click', async () => {
         }
     });
     let data = await response.json();
-    console.log(dupletLines);
     let defaultBranch = data.default_branch;
     let url = 'https://github.com/' + repo.full_name + '/tree/' + defaultBranch + '/' + selectedFile.path + "#L" + dupletLines[1].split(" - ")[0] + "-L" + dupletLines[1].split(" - ")[1];
-    console.log(url);
 
 
     reveal = document.getElementById('reveal');

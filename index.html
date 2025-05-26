@@ -95,9 +95,23 @@
         <hr style="margin-top: 0.5vh;">
         <strong>May 25, 2025</strong>
         <p>After forgetting about this project for 10 days, this will be publicly released. I am working on server-side authentication with 
-            <a href="https://developers.cloudflare.com/d1/">Cloudflare D1</a> (shoutout for being so generous btw) and a TypeScript serverside worker. This will allow you to sign in, save your scores, watch a leaderboard, 
+            <a href="https://developers.cloudflare.com/d1/">Cloudflare D1</a> (shoutout Cloudflare for being so cheap btw) and a TypeScript serverside worker. This will allow you to sign in, save your scores, watch a leaderboard, 
             and maybe even... multiplayer?</p>
             <p>No promises!</p>
+        <p>
+            List of misc. bug fixes/improvements:
+        </p>
+        <ul>
+            <li><strong>'Expertise' selector to switch how many languages are available.</strong></li>
+            <li><strong>x new languages are now available.</strong></li>
+            <li>Fixed issue where language files would fail for a mysterious reason</li>
+            <li>Added protections so that you will no longer get ""10-line snippets"" with lines of whitespace<ul>
+                <li>Specifically, empty lines now no longer count towards the line quota.</li>
+                <li>You can still get 10 lines of comments, though. That's just how the cookie crumbles ¯\_(ツ)_/¯</li>
+            </ul></li>
+            <li>Backtracking/recursive search as a failsafe for an invalid file</li>
+            <li>General cleaning up of code and UI</li>
+        </ul>
         <strong>May 15, 2025</strong>
         <p>Added a difficulty slider because my awesome beta testers found it too difficult. So did I. (I also forgot to commit these changes for a week lmao)</p>
         <strong>May 14, 2025</strong>

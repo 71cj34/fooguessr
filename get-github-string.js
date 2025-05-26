@@ -128,8 +128,9 @@ export async function getSnippet(lang) {
         const repoName = repo.name;
 
         const dirQueue = [''];
+        let selectedFiles = []; // Will hold up to 3 files of suitable language
 
-        while (dirQueue.length > 0 && selectedFile === null) {
+        while (dirQueue.length > 0 && selectedFiles.length === 0) {
             const currentPath = dirQueue.shift();
             let contents = [];
 
@@ -158,7 +159,9 @@ export async function getSnippet(lang) {
             if (langFiles.length > 0) {
                 fileSearchCount = 0;
                 fileSearchMessageIndex = -1;
-                selectedFile = langFiles[getRandomInt(langFiles.length)];
+                // Pick up to 3 random files from langFiles
+                const shuffledFiles = langFiles.sort(() => 0.5 - Math.random());
+                selectedFiles = shuffledFiles.slice(0, 3);
                 break;
             }
 
@@ -168,19 +171,13 @@ export async function getSnippet(lang) {
             }
         }
 
-        if (!selectedFile) {
+        if (selectedFiles.length === 0) {
             fileSearchCount = 0;
             fileSearchMessageIndex = -1;
             output.innerHTML = `<span style='color: red'>'Error:', No ${language} source files found in the repository.</span>`;
             console.error(`No ${language} source files found in the repository.`);
             return;
         }
-
-        output.innerText += "\nFetching file content...";
-        const content = await fetchFileContent(selectedFile);
-
-        fileSearchCount = 0;
-        fileSearchMessageIndex = -1;
 
         // New difficulty reading logic
         const difficulty = getDifficultySelection();
@@ -198,16 +195,48 @@ export async function getSnippet(lang) {
                 linesToSample = 10;
         }
 
-        output.innerHTML += `\nPicking <span style='color: #a24a4b'>${linesToSample}</span> consecutive lines...`;
-        dupletLines = pickConsecutiveLines(content, linesToSample);
-        let lines = dupletLines[0];
-        if (lines.length === 0) {
-            console.warn('Selected file is empty or has no lines.');
+        let snippetLines = [];
+        let snippetRange = "";
+        let successfulFile = null;
+
+        for (let i = 0; i < selectedFiles.length; i++) {
+            const file = selectedFiles[i];
+            output.innerText += `\nFetching file content (try ${i + 1} of ${selectedFiles.length})...`;
+
+            let content;
+            try {
+                content = await fetchFileContent(file);
+            } catch(e) {
+                console.warn(`Failed to fetch file content. Don't panic, we're trying one of the backups.`);
+                continue; // Try next file
+            }
+
+            output.innerHTML += `\nPicking <span style='color: #a24a4b'>${linesToSample}</span> consecutive lines...`;
+
+            const [lines, range] = pickConsecutiveLines(content, linesToSample);
+
+            if (!lines || lines.length === 0 || lines.filter(line => line.trim() !== '').length < linesToSample) {
+                output.innerText += `\nFile did not have enough non-empty lines, trying next file...`;
+                continue; // next file
+            }
+
+            // If we get here, snippet selection succeeded
+            snippetLines = lines;
+            snippetRange = range;
+            successfulFile = file;
+            dupletLines = [snippetLines, snippetRange];
+            selectedFile = file;
+            break;
+        }
+
+        if (!successfulFile) {
+            output.innerHTML += `<span style='color: red'>\nError: None of the selected ${language} files contained enough usable code lines.</span>`;
+            console.error(`None of the selected ${language} files contained enough usable code lines.`);
             return;
         }
 
         output.innerText += "\nDone!";
-        if (output) output.innerText = lines.join('\n');
+        output.innerText = snippetLines.join('\n');
 
     } catch (error) {
         fileSearchCount = 0;
@@ -216,6 +245,7 @@ export async function getSnippet(lang) {
         output.innerHTML = `<span style='color: red'>'Error:', ${error.message}</span>`;
     }
 }
+
 
 async function searchRepos(language, page = 1) {
     const params = new URLSearchParams({
@@ -355,35 +385,57 @@ function charSimilarity(strings) {
 // Pick 10 consecutive lines from file content (random offset)
 function pickConsecutiveLines(text, count) {
     const maskedTerms = [language, ...languageExtensions[language]];
-    // const lines = maskItems(text.split(/\r?\n/).filter(line => line.trim() !== ''), maskedTerms);
-    // const lines = maskItems(text.split(/\r?\n/).map(line => line.trim()), maskedTerms);
     const lines = maskItems(normalizeIndentation(text.split(/\r?\n/)), maskedTerms);
     if (lines.length === 0) return [];
 
-    if (lines.length <= count) {
-        // If not enough lines, return all
+    const totalNonEmpty = lines.filter(line => line.trim() !== '').length;
+    if (totalNonEmpty <= count) {
+        // Not enough non-empty lines: return all
         return [lines, `1 - ${lines.length}`];
-    } else {
-        let i = 0;
-        let segment = [];
-        while (true) {
-            const startIndex = getRandomInt(lines.length - count + 1);
-            segment = [lines.slice(startIndex, startIndex + count), `${startIndex+1} - ${startIndex + count}`];
-            // If similarity is too high, keep trying (up to 5 times)
-            if (charSimilarity(segment[0])) {
-                i++;
-                if (i > 4) {
-                    // after several attempts, return the segment anyway
-                    break;
-                }
-                continue; // try another random slice
-            } else {
-                break;
-            }
-        };
-        return segment;
     }
+
+    let attempts = 0;
+    while (attempts < 20) {
+        const startIndex = getRandomInt(lines.length);
+        let endIndex = startIndex;
+        let nonEmptyCount = 0;
+
+        while (endIndex < lines.length && nonEmptyCount < count) {
+            if (lines[endIndex].trim() !== '') nonEmptyCount++;
+            endIndex++;
+        }
+
+        if (nonEmptyCount < count) {
+            attempts++;
+            continue;
+        }
+
+        const segment = lines.slice(startIndex, endIndex);
+
+        if (!charSimilarity(segment)) {
+            return [segment, `${startIndex + 1} - ${endIndex}`];
+        }
+
+        attempts++;
+    }
+
+    // fallback: linear search from beginning
+    for (let i = 0; i < lines.length; i++) {
+        let endIndex = i;
+        let nonEmptyCount = 0;
+        while (endIndex < lines.length && nonEmptyCount < count) {
+            if (lines[endIndex].trim() !== '') nonEmptyCount++;
+            endIndex++;
+        }
+        if (nonEmptyCount >= count) {
+            return [lines.slice(i, endIndex), `${i + 1} - ${endIndex}`];
+        }
+    }
+
+    // fallback return all
+    return [lines, `1 - ${lines.length}`];
 }
+
 
 export function getRandomInt(max) {
     return Math.floor(Math.random() * max);
