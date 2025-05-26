@@ -3,7 +3,7 @@ let languageExtensions = new Array();
 let languageList = {
     0: {
         Assembly: ["i", "asm"],
-        "JavaScript/TypeScript": [
+        "JavaScript": [
             "javascript",
             "js",
             "jsx",
@@ -43,7 +43,6 @@ let languageList = {
         Swift: ["swift"],
     },
     2: {
-        Dart: ["dart"],
         R: ["r"],
         BASIC: ["bas"],
         COBOL: ["cbl", "cob"],
@@ -121,8 +120,8 @@ let languageList = {
 };
 
 let v = Object.values(languageList)
-let stripped = v.map(obj => Object.keys(obj));
-console.log(stripped)
+export let langs = v.map(obj => Object.keys(obj).sort());
+console.log(langs);
 
 // create the <select> on the fly
 function createSelect() {

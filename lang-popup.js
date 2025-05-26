@@ -1,4 +1,6 @@
-  const langPopup = document.getElementById('lang-popup');
+import { langs } from './get-github-string.js'
+
+const langPopup = document.getElementById('lang-popup');
   const modal = document.getElementById('modal');
   const modalClose = document.getElementById('modal-close');
 
@@ -30,6 +32,89 @@
     }
   });
 
+
+const seen = new Set();
+const allLangs = [];
+for (const levelList of langs) {
+  for (const lang of levelList) {
+    if (!seen.has(lang)) {
+      seen.add(lang);
+      allLangs.push(lang);
+    }
+  }
+}
+
+const langToLevel = new Map();
+langs.forEach((levelList, idx) => {
+  const level = idx + 1;
+  for (const lang of levelList) {
+    langToLevel.set(lang, level);
+  }
+});
+
+// Column headers: Level 1, Level 2, Level 3, Level 4, Level 5
+// Rows: languages
+// For each language row:
+//    For each level column:
+//       If lang level >= col level: show checkmarks equal to col number
+//       Else empty cell
+
+function createTable() {
+  const levelsCount = langs.length; // 5
+
+  let html = '<table border="1" cellspacing="0" cellpadding="4">\n';
+
+  // Add top header row with "Expertise" spanning all level columns
+  html += '  <thead>\n';
+  html += '    <tr><th style="background-color:black"></th><th colspan="' + levelsCount + '" style="text-align:center;">Expertise</th></tr>\n';
+
+  // Header row for Language and Level 1..N
+  html += '    <tr><th>Language</th>';
+//   for (let i = 1; i <= levelsCount; i++) {
+//     html += `<th>Level ${i}</th>`;
+//   }
+  html += '<th>Beginner</th><th>Intermediate</th><th>Advanced</th><th>Impossible</th><th>These Aren\'t Even Languages</th>'
+  html += '</tr>\n';
+  html += '  </thead>\n';
+
+  // Body rows
+  html += '  <tbody>\n';
+
+  for (const lang of allLangs) {
+    const lvl = langToLevel.get(lang); // language's own level
+
+    html += `    <tr><td>${lang}</td>`;
+
+    for (let colLevel = 1; colLevel <= levelsCount; colLevel++) {
+      if (lvl >= colLevel) {
+        // show checkmarks equal to col level
+        const checks = '✓'.repeat(colLevel);
+        html += `<td style="text-align:center;">${checks}</td>`;
+      } else {
+        html += `<td></td>`;
+      }
+    }
+
+    html += '</tr>\n';
+  }
+
+  html += '  </tbody>\n</table>';
+
+  ////// description segment
+  html += `<hr><div><h4 style='margin-bottom: 1em'>Cumulative Language Counts:</h4>`
+  html += `Beginner: <strong>${langs[0].length}</strong><br>
+  Intermediate: <strong>${langs[0].length+langs[1].length}</strong><br>
+  Advanced: <strong>${langs[0].length+langs[1].length+langs[2].length}</strong><br>
+Impossible: <strong>${langs[0].length+langs[1].length+langs[2].length+langs[3].length}</strong><br>
+  These Aren't Even Languages: <strong>${langs[0].length+langs[1].length+langs[2].length+langs[3].length+langs[4].length}</strong><br>
+
+  </div>`
+
+  return html;
+}
+
+const tableInsertion = document.getElementById("table-here");
+tableInsertion.innerHTML = createTable();
 
 let style = document.createElement('style');
     style.textContent = `
