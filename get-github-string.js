@@ -86,7 +86,6 @@ let languageList = {
         Mathemtica: ["nb", "wl", "nbp", "m", "wlt"],
         Processing: ["pde"],
         Ragel: ["rl", "ragel"],
-        "Unix Assembly": ["s", "asm"],
         AutoHotkey: ["ahk"],
         Brainfuck: ["bf"],
         Dockerfile: ["dockerfile", "dockerignore"],
@@ -121,6 +120,9 @@ let languageList = {
     },
 };
 
+let v = Object.values(languageList)
+let stripped = v.map(obj => Object.keys(obj));
+console.log(stripped)
 
 // create the <select> on the fly
 function createSelect() {
