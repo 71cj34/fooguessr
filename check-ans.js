@@ -96,7 +96,7 @@ document.getElementById('submit').addEventListener('click', async () => {
 
     // classes are for cowards
     reveal.innerHTML = `<div style='border: 1px solid ${language != ans.value ? "red" : "green"}; border-radius: 8px; padding: 10px;'>
-    ${language != ans.value ? "<span style='color: red; font-size: 1.2rem'>You lose...</span>" : "<span style='color: green'>You win!</span>"}<br><br>
+    ${language != ans.value ? "<span style='color: red; font-size: 1.2rem; font-family: var(--head)'>You lose...</span>" : "<span style='color: green'>You win!</span>"}<br><br>
 
     This snippet was <strong><code class="code-inline special-code" style="text-decoration: none;">${language}</code></strong> code from the repository <a href="${"https://github.com/" + repo.full_name}" target="_blank"><code class="code-inline special-code">${repo.full_name}</code></a> from lines ${dupletLines[1]} of file <a href="${url}" target="_blank">
     <code class="code-inline special-code">${selectedFile.path.split("/")[1] ? selectedFile.path.split("/")[1] : selectedFile.path}</code></a>. ${language != ans.value ? "Better luck next time..." : "Keep it up!"}
