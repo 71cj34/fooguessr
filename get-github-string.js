@@ -121,7 +121,6 @@ let languageList = {
 
 let v = Object.values(languageList)
 export let langs = v.map(obj => Object.keys(obj).sort());
-console.log(langs);
 
 // create the <select> on the fly
 function createSelect() {
@@ -139,7 +138,6 @@ function createSelect() {
         select.appendChild(opt);
     }
     opts = document.getElementsByTagName('option');
-    console.log(opts.length)
 }
 
 let linesToSample;
@@ -184,7 +182,6 @@ function updateLanguages() {
 
         for (let i = 0; i <= languageSet; i++) {
             Object.assign(languageExtensions, languageList[i]);
-            console.log(`Pushed id ${i}`)
         }
 
         languages = Object.keys(languageExtensions);
@@ -279,7 +276,7 @@ export async function getSnippet(lang) {
             if (langFiles.length > 0) {
                 fileSearchCount = 0;
                 fileSearchMessageIndex = -1;
-                // Pick up to 3 random files from langFiles
+                // up to 3 random files from langFiles
                 const shuffledFiles = langFiles.sort(() => 0.5 - Math.random());
                 selectedFiles = shuffledFiles.slice(0, 3);
                 break;
@@ -292,7 +289,6 @@ export async function getSnippet(lang) {
                 // if src exists
                 const srcDirObj = subDirs.find(dir => dir.name.toLowerCase() === 'src');
                 if (srcDirObj) {
-                    console.log("src found, queued up")
                     // Enqueue src directory first
                     dirQueue.unshift(srcDirObj.path);
                     // Enqueue the rest (except src)
@@ -302,8 +298,7 @@ export async function getSnippet(lang) {
                         }
                     }
                 } else {
-                    console.log("no src found")
-                    // No src directory, enqueue all normally
+                    // No src directory, enqueue all
                     for (const dir of subDirs) {
                         dirQueue.push(dir.path);
                     }
