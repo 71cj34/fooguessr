@@ -80,9 +80,9 @@
       <div class="talk">
 <p><strong>Difficulty</strong> determines how many lines you get:</p>
 <ul>
-  <li>15 lines</li>
-  <li>10 lines</li>
-  <li>7 lines</li>
+  <li><strong>Easy:</strong> 15 lines</li>
+  <li><strong>Classic:</strong> 10 lines</li>
+  <li><strong>Hard:</strong> 7 lines</li>
 </ul>
 
 <p><strong>Expertise</strong> controls how many languages are allowed:</p>
@@ -92,6 +92,7 @@
   <li><strong>Advanced:</strong> adds most of the popular languages (if you played before the public release, this was the default setting!)</li>
   <li><strong>Impossible:</strong> adds every regular language, especially more obscure ones</li>
   <li><strong>These Aren't Even Languages:</strong> adds several markup/syntactical languages (e.g., <span class="code-inline">Makefile</span>, <span class="code-inline">LaTeX</span>) to combine single language in the game</li>
+  <li><a id="lang-popup">Click here for a breakdown of where every language is...</a></li>
 </ul>
          <p>
             Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I 
@@ -111,13 +112,22 @@
                and maybe even... multiplayer?
             </p>
             <p>No promises!</p>
+            <p>And hey, while my motivation is back, I've made some more nice changes!</p>
             <p>
                List of misc. bug fixes/improvements:
             </p>
             <ul>
                <li><strong>'Expertise' selector to switch how many languages are available.</strong></li>
-               <li><strong>27 new languages are now available (that's a lot!).</strong></li>
+               <li><strong>32 new languages are now available (that's a lot!), for a total of 84.</strong><ul><li>
+                <strong>Also includes complete refactor of the select menu (it's alphabetized now!!)</strong>
+               </li></ul></li>
+               <li><strong>Rewritten description (the text blurbs above this) to help new players.</strong></li>
+               
+
                <li>Fixed issue where language files would fail for a mysterious reason</li>
+               <li>Fixed my ▒▛░▎▍ty regex causing the censor function to fail in some circumstances</li>
+               <li>Fixed race conditions that caused search to time out<ul><li>Okay, it's not <em>all</em> fixed, but I've exposed some helpful logging so you'll at least know if it happens.</li>
+                <li>Blame it on the <span class="code-inline">async/await</span>s, not me.</li></ul></li>
                <li><span class="code-inline">/src</span> directories are now prioritized, which should reduce depth-search times significantly</li>
                <li>
                   Added protections so that you will no longer get ""10-line snippets"" with lines of whitespace

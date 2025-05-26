@@ -1,88 +1,131 @@
 // Map some common languages to typical file extensions
-const languageExtensions = {
-    JavaScript: ['js', 'jsx', 'mjs', 'cjs', 'ts', 'typescript'],
-    AutoHotkey: ['ahk'],
-    Python: ['py'],
-    Ruby: ['rb'],
-    Java: ['java'],
-    Go: ['go'],
-    C: ['c'],
-    "C++": ['cpp', 'cc', 'cxx', 'hpp', 'hh', 'hxx'],
-    PHP: ['php'],
-    Shell: ['sh', 'bash'],
-    ActionScript: ['as'],
-    Assembly: ['i', 'asm'],
-    Bash: ['sh', 'bash'],
-    BASIC: ['bas'],
-    Batch: ['bat', 'cmd'],
-    Brainfuck: ['bf'],
-    'C#': ['cs'],
-    COBOL: ['cbl', 'cob'],
-    CoffeeScript: ['coffee'],
-    CSS: ['css'],
-    D: ['d'],
-    Dart: ['dart'],
-    Docker: ['dockerfile', 'dockerignore'],
-    Fortran: ['f90', 'f', 'for', 'f03', 'f08', 'F'],
-    'G-Code': ['gcode', 'nc'],
-    GraphQL: ['graphql', 'gql'],
-    Groovy: ['groovy'],
-    Haskell: ['hs'],
-    HTML: ['html', 'htm'],
-    Kotlin: ['kt', 'kts'],
-    TeX: ['tex'],
-    Lisp: ['lisp', 'lsp', 'cl'],
-    Lua: ['lua'],
-    Makefile: ['makefile', 'Makefile', 'mk'],
-    Markdown: ['md', 'markdown'],
-    MatLab: ['m'],
-    Nix: ['nix'],
-    'Objective-C': ['m'],
-    OCaml: ['ml', 'mli'],
-    Pascal: ['pas', 'pp'],
-    Perl: ['pl', 'pm'],
-    Powershell: ['ps1', 'psm1', 'psd1'],
-    R: ['r'],
-    Rust: ['rs'],
-    Scala: ['scala'],
-    Smalltalk: ['st'],
-    SQL: ['sql'],
-    Swift: ['swift'],
-    'VB.net': ['vb'],
-    Verilog: ['v', 'vh'],
-    'Visual Basic': ['vb', 'vba'],
-    WebAssembly: ['wasm'],
-    Zig: ['zig'],
-      "ASP.NET": ['aspx', 'ascx', 'ashx', 'asmx', 'config'],
-  Bibtex: ['bib', 'bibtex'],
-  CSV: ['csv'],
-  Carbon: ['carbon'],
-  Checksum: ['cksum', 'sha256','sha1', 'sha2','sha3', 'sha224', 'sha384', 'sha512','md2', 'md4', 'md5', 'crc32'],
-  CUDA: ['cu', 'cuh'],
-  "E-mail File": ['eml', 'msg', 'mbox'],
-  GDScript: ['gd'],
-  Handlebars: ['hbs', 'handlebars'],
-  JSON: ['json'],
-  Jinja: ['j2', 'jinja', 'jinja2', 'tpl'],
-  JupyterNotebook: ['ipynb'],
-  Lean: ['lean', 'hlean'],
-  Liquid: ['liquid'],
-  Mathemtica: ['nb', 'wl', 'nbp', 'm', 'wlt'],
-  Metal: ['metal'],
-  Processing: ['pde'],
-  Ragel: ['rl', 'ragel'],
-  Regex: ['regex', 're', 'exp', 'regexp'],
-  "Rich Text Format": ['rtf'],
-  Stata: ['do', 'dta', 'ado', 'doh', 'matah', 'mata', 'ihlp', 'sthlp'],
-  TOML: ['toml'],
-  "Unix Assembly": ['s', 'asm'],
-  Vue: ['vue'],
-  YAML: ['yaml', 'yml']
+let languageExtensions = new Array();
+let languageList = {
+    0: {
+        Assembly: ["i", "asm"],
+        "JavaScript/TypeScript": [
+            "javascript",
+            "js",
+            "jsx",
+            "mjs",
+            "cjs",
+            "ts",
+            "tsx",
+            "mts",
+            "cts",
+            "typescript",
+        ],
+        Python: ["py"],
+        Java: ["java"],
+        PHP: ["php"],
+        Regex: ["regex", "re", "exp", "regexp"],
+        SQL: ["sql"],
+        C: ["c"],
+        Powershell: ["ps1", "psm1", "psd1"],
+    },
+    1: {
+        Shell: ["sh", "bash"],
+        Bash: ["sh", "bash"],
+        Batch: ["bat", "cmd"],
+        "C#": ["cs"],
+        "C++": ["cpp", "cc", "cxx", "hpp", "hh", "hxx"],
+        D: ["d"],
+        CoffeeScript: ["coffee"],
+        Dart: ["dart"],
+        Haskell: ["hs"],
+        Rust: ["rs"],
+        Ruby: ["rb"],
+        Go: ["go"],
+        "Objective-C": ["m"],
+        OCaml: ["ml", "mli"],
+        Pascal: ["pas", "pp"],
+        Perl: ["pl", "pm"],
+        Swift: ["swift"],
+    },
+    2: {
+        Dart: ["dart"],
+        R: ["r"],
+        BASIC: ["bas"],
+        COBOL: ["cbl", "cob"],
+        Fortran: ["f90", "f", "for", "f03", "f08", "F"],
+        Kotlin: ["kt", "kts"],
+        Lisp: ["lisp", "lsp", "cl"],
+        Lua: ["lua"],
+        V: ["v", "vsh"],
+        "F#": ["fs", "fsi", "fsx", "fsscript"],
+        Julia: ["jl"],
+        Scala: ["scala"],
+        Metal: ["metal"],
+        Stata: ["do", "dta", "ado", "doh", "matah", "mata", "ihlp", "sthlp"],
+        ActionScript: ["as"],
+        GraphQL: ["graphql", "gql"],
+        Erlang: ["erl", "hrl"],
+        Elixir: ["ex", "exs"],
+        Crystal: ["cr"],
+        Nix: ["nix"],
+        Smalltalk: ["st"],
+        Zig: ["zig"],
+        GDScript: ["gd"],
+        Vue: ["vue"],
+        Groovy: ["groovy"],
+    },
+    3: {
+        TeX: ["tex"],
+        Nim: ["nim", "nims", "nimble"],
+        MatLab: ["m"],
+        Verilog: ["v", "vh"],
+        "Visual Basic": ["vb", "vba"],
+        WebAssembly: ["wasm"],
+        Bibtex: ["bib", "bibtex"],
+        CUDA: ["cu", "cuh"],
+        Handlebars: ["hbs", "handlebars"],
+        Jinja: ["j2", "jinja", "jinja2", "tpl"],
+        "Jupyter Notebook": ["ipynb"],
+        Lean: ["lean", "hlean"],
+        Liquid: ["liquid"],
+        Mathemtica: ["nb", "wl", "nbp", "m", "wlt"],
+        Processing: ["pde"],
+        Ragel: ["rl", "ragel"],
+        "Unix Assembly": ["s", "asm"],
+        AutoHotkey: ["ahk"],
+        Brainfuck: ["bf"],
+        Dockerfile: ["dockerfile", "dockerignore"],
+        "G-Code": ["gcode", "nc"],
+    },
+    4: {
+        CSS: ["css"],
+        HTML: ["html", "htm"],
+        Makefile: ["makefile", "Makefile", "mk"],
+        Markdown: ["md", "markdown"],
+        ASP: ["aspx", "ascx", "ashx", "asmx", "config"],
+        CSV: ["csv"],
+        Checksum: [
+            "cksum",
+            "sha256",
+            "sha1",
+            "sha2",
+            "sha3",
+            "sha224",
+            "sha384",
+            "sha512",
+            "md2",
+            "md4",
+            "md5",
+            "crc32",
+        ],
+        Email: ["eml", "msg", "mbox"],
+        JSON: ["json"],
+        "Rich Text Format": ["rtf"],
+        TOML: ["toml"],
+        YAML: ["yaml", "yml"],
+    },
 };
 
 
 // create the <select> on the fly
 function createSelect() {
+    let opts = document.getElementsByTagName('option');
+    Array.from(opts).forEach(opt => opt.remove());
     let select = document.getElementById('programmingLanguages');
     let initialOpt = document.createElement('option');
     initialOpt.value = "";
@@ -94,6 +137,56 @@ function createSelect() {
         opt.innerHTML = languages.sort()[i];
         select.appendChild(opt);
     }
+    opts = document.getElementsByTagName('option');
+    console.log(opts.length)
+}
+
+let linesToSample;
+let languageSet;
+
+function updateLanguages() {
+        languageExtensions = new Array();
+        const difficulty = getDifficultySelection("difficulty");
+        const expertise = getDifficultySelection("expertise")
+
+        switch (difficulty) {
+            case "Easy":
+                linesToSample = 15;
+                break;
+            case "Hard":
+                linesToSample = 7;
+                break;
+            case "Classic":
+            default:
+                linesToSample = 10;
+        }
+
+        switch (expertise) {
+            case "Beginner":
+                languageSet = 0;
+                break;
+            case "Intermediate":
+                languageSet = 1;
+                break;
+            case "Advanced":
+                languageSet = 2;
+                break;
+            case "Impossible":
+                languageSet = 3;
+                break;
+            case "Impossible-er":
+                languageSet = 4;
+                break;
+            default:
+                languageSet = 1;
+        }
+
+        for (let i = 0; i <= languageSet; i++) {
+            Object.assign(languageExtensions, languageList[i]);
+            console.log(`Pushed id ${i}`)
+        }
+
+        languages = Object.keys(languageExtensions);
 }
 
 const shf = "EIj4YrTsGS567CWUGhgbzDEsIoAikfcAn6h0akuedgGZNHTA91zUedEp3o8_aFwGgZkN7jmd0AZGSDUA11_tap_buhtig"
@@ -115,7 +208,7 @@ function getDifficultySelection(name) {
 
 
 // i hate you i hate you i hate you i hate you i hate you es6
-export const languages = Object.keys(languageExtensions);
+export let languages = Object.keys(languageExtensions);
 export let language = "";
 export let keyyy = shf.split("").reverse().join("");
 export let repo = "";
@@ -156,71 +249,71 @@ export async function getSnippet(lang) {
         const dirQueue = [''];
         let selectedFiles = []; // Will hold up to 3 files of suitable language
 
-while (dirQueue.length > 0 && selectedFiles.length === 0) {
-    const currentPath = dirQueue.shift();
-    let contents = [];
+        while (dirQueue.length > 0 && selectedFiles.length === 0) {
+            const currentPath = dirQueue.shift();
+            let contents = [];
 
-    try {
-        contents = await fetchDirectoryContents(owner, repoName, currentPath);
-    } catch (e) {
-        console.warn(`Failed to fetch contents of ${currentPath}: ${e.message}`);
-        continue;
-    }
+            try {
+                contents = await fetchDirectoryContents(owner, repoName, currentPath);
+            } catch (e) {
+                console.warn(`Failed to fetch contents of ${currentPath}: ${e.message}`);
+                continue;
+            }
 
-    const langFiles = filterFilesByLanguage(contents, language);
-    fileSearchCount++;
+            const langFiles = filterFilesByLanguage(contents, language);
+            fileSearchCount++;
 
-    const fileSearchMessage = `\nFinding matching language file in repository (${fileSearchCount})...`;
-    let currentText = output.innerText;
+            const fileSearchMessage = `\nFinding matching language file in repository (${fileSearchCount})...`;
+            let currentText = output.innerText;
 
-    if (fileSearchMessageIndex !== -1) {
-        let errorLines = currentText.split('\n');
-        errorLines[fileSearchMessageIndex] = `Finding matching language file in repository (${fileSearchCount})...`;
-        output.innerText = errorLines.join('\n');
-    } else {
-        output.innerText += fileSearchMessage;
-        fileSearchMessageIndex = output.innerText.split('\n').length - 1;
-    }
+            if (fileSearchMessageIndex !== -1) {
+                let errorLines = currentText.split('\n');
+                errorLines[fileSearchMessageIndex] = `Finding matching language file in repository (${fileSearchCount})...`;
+                output.innerText = errorLines.join('\n');
+            } else {
+                output.innerText += fileSearchMessage;
+                fileSearchMessageIndex = output.innerText.split('\n').length - 1;
+            }
 
-    if (langFiles.length > 0) {
-        fileSearchCount = 0;
-        fileSearchMessageIndex = -1;
-        // Pick up to 3 random files from langFiles
-        const shuffledFiles = langFiles.sort(() => 0.5 - Math.random());
-        selectedFiles = shuffledFiles.slice(0, 3);
-        break;
-    }
+            if (langFiles.length > 0) {
+                fileSearchCount = 0;
+                fileSearchMessageIndex = -1;
+                // Pick up to 3 random files from langFiles
+                const shuffledFiles = langFiles.sort(() => 0.5 - Math.random());
+                selectedFiles = shuffledFiles.slice(0, 3);
+                break;
+            }
 
-    const subDirs = filterDirectories(contents);
+            const subDirs = filterDirectories(contents);
 
-    // if at root level, prioritize /src
-    if (currentPath === '') {
-        // if src exists
-        const srcDirObj = subDirs.find(dir => dir.name.toLowerCase() === 'src');
-        if (srcDirObj) {
-            console.log("src found, queued up")
-            // Enqueue src directory first
-            dirQueue.unshift(srcDirObj.path);
-            // Enqueue the rest (except src)
-            for (const dir of subDirs) {
-                if (dir.name.toLowerCase() !== 'src') {
+            // if at root level, prioritize /src
+            if (currentPath === '') {
+                // if src exists
+                const srcDirObj = subDirs.find(dir => dir.name.toLowerCase() === 'src');
+                if (srcDirObj) {
+                    console.log("src found, queued up")
+                    // Enqueue src directory first
+                    dirQueue.unshift(srcDirObj.path);
+                    // Enqueue the rest (except src)
+                    for (const dir of subDirs) {
+                        if (dir.name.toLowerCase() !== 'src') {
+                            dirQueue.push(dir.path);
+                        }
+                    }
+                } else {
+                    console.log("no src found")
+                    // No src directory, enqueue all normally
+                    for (const dir of subDirs) {
+                        dirQueue.push(dir.path);
+                    }
+                }
+            } else {
+                // Normal behavior, enqueue all sub dirs
+                for (const dir of subDirs) {
                     dirQueue.push(dir.path);
                 }
             }
-        } else {
-            console.log("no src found")
-            // No src directory, enqueue all normally
-            for (const dir of subDirs) {
-                dirQueue.push(dir.path);
-            }
         }
-    } else {
-        // Normal behavior, enqueue all sub dirs
-        for (const dir of subDirs) {
-            dirQueue.push(dir.path);
-        }
-    }
-}
 
 
         if (selectedFiles.length === 0) {
@@ -231,41 +324,7 @@ while (dirQueue.length > 0 && selectedFiles.length === 0) {
             return;
         }
 
-        // New difficulty reading logic
-        const difficulty = getDifficultySelection("difficulty");
-        const expertise = getDifficultySelection("expertise")
-        let linesToSample;
-        let languageSet;
-
-        switch (difficulty) {
-            case "Easy":
-                linesToSample = 15;
-                break;
-            case "Hard":
-                linesToSample = 7;
-                break;
-            case "Classic":
-            default:
-                linesToSample = 10;
-        }
-
-        switch (expertise) {
-            case "Beginner":
-                linesToSample = 15;
-                break;
-            case "Intermediate":
-                linesToSample = 7;
-                break;
-            case "Advanced":
-
-            case "Impossible":
-            
-            case "Impossible-er":
-                            
-            
-            default:
-                linesToSample = 10;
-        }
+        updateLanguages();
 
         let snippetLines = [];
         let snippetRange = "";
@@ -278,7 +337,7 @@ while (dirQueue.length > 0 && selectedFiles.length === 0) {
             let content;
             try {
                 content = await fetchFileContent(file);
-            } catch(e) {
+            } catch (e) {
                 console.warn(`Failed to fetch file content. Don't panic, we're trying one of the backups.`);
                 continue; // Try next file
             }
@@ -384,7 +443,7 @@ function maskItems(text, mask) {
     const escapedTerms = mask.map(term => term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
 
     const boundaryBefore = "(^|[ \\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
-    const boundaryAfter  = "($|[ \\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
+    const boundaryAfter = "($|[ \\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
 
     const regex = new RegExp(
         `${boundaryBefore}(?:${escapedTerms.join('|')})${boundaryAfter}`,
@@ -515,8 +574,16 @@ export function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-// This is a "self-executing" function to run on initial load
+document.getElementsByName("expertise").forEach(radio => {
+        radio.addEventListener('change', () => {
+            updateLanguages();
+            createSelect();
+        });
+    });
+
+        // This is a "self-executing" function to run on initial load
 (async () => {
+    updateLanguages();
     createSelect();
 
     // TODO: UPDATE THIS WHEN ADDING NEW LANGS!!!!!!!!!!
