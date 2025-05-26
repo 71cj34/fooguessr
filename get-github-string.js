@@ -1,6 +1,7 @@
 // Map some common languages to typical file extensions
 const languageExtensions = {
     JavaScript: ['js', 'jsx', 'mjs', 'cjs', 'ts', 'typescript'],
+    AutoHotkey: ['.ahk'],
     Python: ['py'],
     Ruby: ['rb'],
     Java: ['java'],
@@ -22,7 +23,7 @@ const languageExtensions = {
     D: ['d'],
     Dart: ['dart'],
     Docker: ['dockerfile', 'dockerignore'],
-    Fortran: ['f90', 'f', 'for', 'f03', 'f08'],
+    Fortran: ['f90', 'f', 'for', 'f03', 'f08', 'F'],
     'G-Code': ['gcode', 'nc'],
     GraphQL: ['graphql', 'gql'],
     Groovy: ['groovy'],
@@ -52,6 +53,31 @@ const languageExtensions = {
     'Visual Basic': ['vb', 'vba'],
     WebAssembly: ['wasm'],
     Zig: ['zig'],
+      "ASP.NET": ['aspx', 'ascx', 'ashx', 'asmx', 'config'],
+  Bibtex: ['bib', 'bibtex'],
+  CSV: ['csv'],
+  Carbon: ['carbon'],
+  Checksum: ['cksum', 'sha256','sha1', 'sha2','sha3', 'sha224', 'sha384', 'sha512','md2', 'md4', 'md5', 'crc32'],
+  CUDA: ['cu', 'cuh'],
+  "E-mail File": ['eml', 'msg', 'mbox'],
+  GDScript: ['gd'],
+  Handlebars: ['hbs', 'handlebars'],
+  JSON: ['json'],
+  Jinja: ['j2', 'jinja', 'jinja2', 'tpl'],
+  JupyterNotebook: ['ipynb'],
+  Lean: ['lean', 'hlean'],
+  Liquid: ['liquid'],
+  Mathemtica: ['nb', 'wl', 'nbp', 'm', 'wlt'],
+  Metal: ['metal'],
+  Processing: ['pde'],
+  Ragel: ['rl', 'ragel'],
+  Regex: ['regex', 're', 'exp', 'regexp'],
+  "Rich Text Format": ['rtf'],
+  Stata: ['do', 'dta', 'ado', 'doh', 'matah', 'mata', 'ihlp', 'sthlp'],
+  TOML: ['toml'],
+  "Unix Assembly": ['s', 'asm'],
+  Vue: ['vue'],
+  YAML: ['yaml', 'yml']
 };
 
 
