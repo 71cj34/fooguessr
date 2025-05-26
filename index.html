@@ -34,13 +34,24 @@
         Note that identifying features, more specifically things like the name of the language and its extensions, are censored with ██████. Can't make it too easy ;) 
     </p>
     <div class="app">
-        <button id="generateButton" class="button" style="transform: scale(0.8); transform-origin: top left">
+        <div style="border-style: solid; border-width: 1px; max-width: fit-content; border-radius: 5px">
+            <div style="margin: 1em">
+                            <p><strong>Difficulty:</strong></p>
+            <label><input type="radio" name="difficulty" value="Easy">Easy</label>
+    <label><input type="radio" name="difficulty" value="Classic" checked>Classic</label>
+    <label><input type="radio" name="difficulty" value="Hard">Hard</label>
+            </div>
+
+            </div>
+
+        <button id="generateButton" class="button" style="transform: scale(0.9); transform-origin: top left">
         
         <!-- <span class="shadow"></span> -->
         <!-- <span class="edge"></span> -->
         <div class="front">
             <span>Roll Snippet!</span>
         </div>
+        <br><br>
         </button>
         <!-- <p id="rounds">ROUND <span id="round-1">x</span> OF <span id="round-2">x</span>:</p> -->
         <pre data-start="1" class="line-numbers" id="pre" style="max-width: 95%; overflow-x: auto; white-space: nowrap;"><code class="code_block" id="operating-table" style="width: 100%; max-width: 100%;">Press the button above to start!</pre></code>
@@ -50,7 +61,7 @@
             </select>
         </div>
 
-        <button class="button" id="submit">
+        <button class="button" id="submit" style="transform: scale(1.1); transform-origin:top left">
         <!-- <span class="shadow"></span> -->
         <!-- <span class="edge"></span> -->
         <div class="front">
@@ -62,6 +73,11 @@
 
     </div>
     <div class="talk">
+        <p>
+            <strong>Difficulty</strong> is how many lines you get: 15, 10, and 7 respectively. <strong>Expertise</strong> is how many languages are allowed: 'Beginner' only has recognizable, distinct languages, 
+            'Intermediate' adds more ambiguous/tricky languages, 'Advanced' adds the full range of regular languages (if you played before the public release, this was the default setting!), and 'These Aren't Even Languages' adds
+            several markup/syntactical languages (eg. <span class="code-inline">Makefile</span>, <span class="code-inline">LaTeX</span>).
+        </p>
     <p>
         Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I 
         had heard of at some point for any reason. Kindly do not ask me to include Malbolge or whatever esolang conceived by programmers from the Siberian wilderness you personally champion.
