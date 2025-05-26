@@ -511,7 +511,6 @@ function charSimilarity(strings) {
     return percentage >= 60;
 }
 
-// Pick 10 consecutive lines from file content (random offset)
 function pickConsecutiveLines(text, count) {
     const maskedTerms = [language, ...languageExtensions[language]];
     const lines = maskItems(normalizeIndentation(text.split(/\r?\n/)), maskedTerms);
@@ -577,7 +576,6 @@ document.getElementsByName("expertise").forEach(radio => {
         });
     });
 
-        // This is a "self-executing" function to run on initial load
 (async () => {
     updateLanguages();
     createSelect();
