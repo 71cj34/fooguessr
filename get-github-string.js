@@ -189,10 +189,10 @@ function updateLanguages() {
 const shf = "EIj4YrTsGS567CWUGhgbzDEsIoAikfcAn6h0akuedgGZNHTA91zUedEp3o8_aFwGgZkN7jmd0AZGSDUA11_tap_buhtig"
 
 const output = document.getElementById('operating-table');
-let fileSearchCount = 0; // Counter for the file search message
-let fileSearchMessageIndex = -1; // Track the index of our file search message
+let fileSearchCount = 0; // Counter for file search message
+let fileSearchMessageIndex = -1; // Track the index of file search message
 
-// New helper to get current difficulty selection
+// helper to get current difficulty selection
 function getDifficultySelection(name) {
     const radios = document.getElementsByName(name);
     for (let radio of radios) {
@@ -330,7 +330,7 @@ export async function getSnippet(lang) {
         if (selectedFiles.length === 0) {
             fileSearchCount = 0;
             fileSearchMessageIndex = -1;
-            output.innerHTML = `<span style='color: red'>'Error:', No ${language} source files found in the repository ${repo.full_name}.</span>`;
+            output.innerHTML = `<span style='color: red'>'Error:', No ${language} source files found in the repository ${repo.full_name}. Try rolling again.</span>`;
             console.error(`No ${language} source files found in the repository.`);
             return;
         }
@@ -372,7 +372,7 @@ export async function getSnippet(lang) {
         }
 
         if (!successfulFile) {
-            output.innerHTML += `<span style='color: red'>\nError: None of the selected ${language} files contained enough usable code lines.</span>`;
+            output.innerHTML = `<span style='color: red'>\nError: None of the selected ${language} files contained enough usable code lines. Try rolling again.</span>`;
             console.error(`None of the selected ${language} files from ${repo.full_name} contained enough usable code lines.`);
             return;
         }
@@ -384,7 +384,7 @@ export async function getSnippet(lang) {
         fileSearchCount = 0;
         fileSearchMessageIndex = -1;
         console.error('Error:', error.message);
-        output.innerHTML = `<span style='color: red'>'Error:', ${error.message}</span>`;
+        output.innerHTML = `<span style='color: red'>'Error:', ${error.message}. Try rolling again?</span>`;
     }
 }
 
@@ -429,12 +429,10 @@ function filterFilesByLanguage(files, language) {
     });
 }
 
-// Filter directories from contents
 function filterDirectories(files) {
     return files.filter(file => file.type === 'dir');
 }
 
-// Fetch raw content of a file
 async function fetchFileContent(file) {
     if (!file.download_url) throw new Error('No download_url');
     const res = await fetch(file.download_url);
@@ -448,7 +446,7 @@ function maskItems(text, mask) {
     }
 
     if (!text || !mask || mask.length === 0) {
-        return text; // Handle empty input gracefully
+        return text; // this shouldnt be empty but just in case
     }
 
     const escapedTerms = mask.map(term => term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
@@ -469,7 +467,6 @@ function maskItems(text, mask) {
 }
 
 function normalizeIndentation(lines) {
-    // Filter non-empty lines and get their leading indent strings
     const indents = lines
         .filter(line => line.trim().length > 0)
         .map(line => {
@@ -481,7 +478,6 @@ function normalizeIndentation(lines) {
         return lines;
     }
 
-    // Find common prefix of all indents
     let commonIndent = indents[0];
     for (let i = 1; i < indents.length; i++) {
         let j = 0;
@@ -510,11 +506,11 @@ function normalizeIndentation(lines) {
 
 function charSimilarity(strings) {
     if (!strings || strings.length === 0) {
-        return true; // Empty array is considered consistent
+        return true; // empty array is considered consistent
     }
 
     const firstCharacters = strings.map(str => {
-        if (!str) return null; // Handle empty strings if needed (optional)
+        if (!str) return null; // Handle empty string
         return str.charAt(0);
     });
 
@@ -524,7 +520,7 @@ function charSimilarity(strings) {
         return true; // if the array contains either null or empty strings or whitespace
     }
 
-    const leadingChar = validFirstCharacters[0]; // The first valid leading character.
+    const leadingChar = validFirstCharacters[0]; // first valid leading character
 
     let count = 0;
     for (const char of validFirstCharacters) {
@@ -546,7 +542,7 @@ function pickConsecutiveLines(text, count) {
 
     const totalNonEmpty = lines.filter(line => line.trim() !== '').length;
     if (totalNonEmpty <= count) {
-        // Not enough non-empty lines: return all
+        // not enough non-empty lines -> return all
         return [lines, `1 - ${lines.length}`];
     }
 
@@ -610,5 +606,5 @@ document.getElementsByName("expertise").forEach(radio => {
 
     // TODO: UPDATE THIS WHEN ADDING NEW LANGS!!!!!!!!!!
     language = languages[getRandomInt(languages.length)];
-    // await getSnippet(language); // init
+    // await getSnippet(language); // deprecated after es6 mod
 })();
