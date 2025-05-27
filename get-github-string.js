@@ -330,7 +330,7 @@ export async function getSnippet(lang) {
         if (selectedFiles.length === 0) {
             fileSearchCount = 0;
             fileSearchMessageIndex = -1;
-            output.innerHTML = `<span style='color: red'>'Error:', No ${language} source files found in the repository ${repo}.</span>`;
+            output.innerHTML = `<span style='color: red'>'Error:', No ${language} source files found in the repository ${repo.full_name}.</span>`;
             console.error(`No ${language} source files found in the repository.`);
             return;
         }
@@ -373,7 +373,7 @@ export async function getSnippet(lang) {
 
         if (!successfulFile) {
             output.innerHTML += `<span style='color: red'>\nError: None of the selected ${language} files contained enough usable code lines.</span>`;
-            console.error(`None of the selected ${language} files from ${repo} contained enough usable code lines.`);
+            console.error(`None of the selected ${language} files from ${repo.full_name} contained enough usable code lines.`);
             return;
         }
 
@@ -469,31 +469,44 @@ function maskItems(text, mask) {
 }
 
 function normalizeIndentation(lines) {
-    const indentLengths = lines
-        .filter(line => line.trim().length > 0) // skip empty lines
+    // Filter non-empty lines and get their leading indent strings
+    const indents = lines
+        .filter(line => line.trim().length > 0)
         .map(line => {
             const match = line.match(/^(\s*)/);
-            return match ? match[1].length : 0;
+            return match ? match[1] : '';
         });
 
-    if (indentLengths.length === 0) {
+    if (indents.length === 0) {
         return lines;
     }
 
-    // find min indent among all non-empty lines
-    const minIndent = Math.min(...indentLengths);
+    // Find common prefix of all indents
+    let commonIndent = indents[0];
+    for (let i = 1; i < indents.length; i++) {
+        let j = 0;
+        while (j < commonIndent.length && j < indents[i].length && commonIndent[j] === indents[i][j]) {
+            j++;
+        }
+        commonIndent = commonIndent.slice(0, j);
+        if (commonIndent === '') {
+            break; // no common indent
+        }
+    }
 
-    // hedge trimmin
+    // remove commonIndent from the start of each non-empty line
     return lines.map(line => {
         if (line.trim().length === 0) {
-            // empty line
             return line;
         }
-        // Remove exactly minIndent characters from start
-        // assuming indent is by characters (could be space or tab)
-        return line.slice(minIndent);
+        if (line.startsWith(commonIndent)) {
+            return line.slice(commonIndent.length);
+        }
+        // fallback
+        return line;
     });
 }
+
 
 function charSimilarity(strings) {
     if (!strings || strings.length === 0) {
