@@ -6,7 +6,7 @@
       <title>Fooguessr</title>
       <link rel="stylesheet" href="https://jasoncheng.me/fonts/fonts.css" />
       <link rel="stylesheet" href="ds1_cloned.css" />
-            <link rel="stylesheet" href="resize.css" />
+      <link rel="stylesheet" href="resize.css" />
       <link rel="stylesheet" href="https://jasoncheng.me/api/docs/code.css" />
       <style>
          code {
@@ -19,26 +19,25 @@
          transform-origin: left;
          }
          pre {
-    overflow-x: auto;        /* Enable horizontal scrolling */
-    white-space: pre-wrap;   /* Allow lines to wrap */
-    word-wrap: break-word;   /* Break long words */
-    max-width: 100%;         /* Prevent overflow wider than container */
-}
-
-.code_block {
-    display: block;
-    font-size: 0.95em;
-    font-family: "Inconsolata", monospace;
-    background-color: #f6f6f6;
-    border: 1px solid #ddd;
-    padding: 10px;
-    color: black;
-    cursor: pointer;
-    white-space: pre-wrap;   /* wrap long lines */
-    max-width: 100%;         /* fit inside container */
-    overflow-x: auto;        /* allow scrolling if needed */
-    box-sizing: border-box;  /* include padding and border in width */
-}
+         overflow-x: auto;
+         white-space: pre-wrap;
+         word-wrap: break-word;
+         max-width: 100%;
+         }
+         .code_block {
+         display: block;
+         font-size: 0.95em;
+         font-family: "Inconsolata", monospace;
+         background-color: #f6f6f6;
+         border: 1px solid #ddd;
+         padding: 10px;
+         color: black;
+         cursor: pointer;
+         white-space: pre-wrap;
+         max-width: 100%;
+         overflow-x: auto;
+         box-sizing: border-box;
+         }
       </style>
    </head>
    <body>
@@ -46,7 +45,6 @@
       <p>
          A <strong>browser-based game</strong> where you guess the programming language of a random snippet from Github based on just 10 lines of code, inspired by <a href="https://www.geoguessr.com/" target="_blank">GeoGuessr</a>.
       </p>
-
       <p>See <a href="#info">below</a> for more information.</p>
       <div class="app">
          <div style="display: flex; gap: 1rem;">
@@ -68,17 +66,15 @@
                   <label><input type="radio" name="expertise" value="Impossible-er">These Aren't Even Languages</label>
                </div>
             </div>
-
          </div>
-            <button id="generateButton" class="button" style="transform: scale(0.9); transform-origin: top left">
-               <!-- <span class="shadow"></span> -->
-               <!-- <span class="edge"></span> -->
-               <div class="front">
-                  <span>Roll Snippet!</span>
-               </div>
-            </button>
-                           <br><br>
-
+         <button id="generateButton" class="button" style="transform: scale(0.9); transform-origin: top left">
+            <!-- <span class="shadow"></span> -->
+            <!-- <span class="edge"></span> -->
+            <div class="front">
+               <span>Roll Snippet!</span>
+            </div>
+         </button>
+         <br><br>
          <!-- <p id="rounds">ROUND <span id="round-1">x</span> OF <span id="round-2">x</span>:</p> -->
          <pre data-start="1" class="line-numbers" id="pre" style="width: 100%; overflow-x: auto"><code class="code_block" id="operating-table" style="width: 100%; max-width: 100%; white-space:pre;">Press the button above to start!</code></pre>
          <div>
@@ -96,22 +92,21 @@
          <p id="reveal"></p>
       </div>
       <div class="talk" id="info">
-<p><strong>Difficulty</strong> determines how many lines you get:</p>
-<ul>
-  <li><strong>Easy:</strong> 15 lines</li>
-  <li><strong>Classic:</strong> 10 lines</li>
-  <li><strong>Hard:</strong> 7 lines</li>
-</ul>
-
-<p><strong>Expertise</strong> controls how many languages are allowed:</p>
-<ul>
-  <li><strong>Beginner:</strong> only recognizable, distinct languages</li>
-  <li><strong>Intermediate:</strong> adds some ambiguous/trickier languages</li>
-  <li><strong>Advanced:</strong> includes most popular languages (if you played before the public release, this was the only setting!)</li>
-  <li><strong>Impossible:</strong> every 'regular' programming language, especially obscure ones not in Advanced</li>
-  <li><strong>These Aren't Even Languages:</strong> adds several markup/syntactical languages (e.g., <span class="code-inline">Makefile</span>, <span class="code-inline">LaTeX</span>) to include single language in the game!</li>
-  <li><a id="lang-popup">Click here for a breakdown of the languages...</a></li>
-</ul>
+         <p><strong>Difficulty</strong> determines how many lines you get:</p>
+         <ul>
+            <li><strong>Easy:</strong> 15 lines</li>
+            <li><strong>Classic:</strong> 10 lines</li>
+            <li><strong>Hard:</strong> 7 lines</li>
+         </ul>
+         <p><strong>Expertise</strong> controls how many languages are allowed:</p>
+         <ul>
+            <li><strong>Beginner:</strong> only recognizable, distinct languages</li>
+            <li><strong>Intermediate:</strong> adds some ambiguous/trickier languages</li>
+            <li><strong>Advanced:</strong> includes most popular languages (if you played before the public release, this was the only setting!)</li>
+            <li><strong>Impossible:</strong> every 'regular' programming language, especially obscure ones not in Advanced</li>
+            <li><strong>These Aren't Even Languages:</strong> adds several markup/syntactical languages (e.g., <span class="code-inline">Makefile</span>, <span class="code-inline">LaTeX</span>) to include single language in the game!</li>
+            <li><a id="lang-popup">Click here for a breakdown of the languages...</a></li>
+         </ul>
          <p>
             Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I 
             had heard of at some point for any reason. Kindly do not ask me to include Malbolge or whatever esolang conceived by programmers from the Siberian wilderness you personally champion.
@@ -137,21 +132,38 @@
             <ul>
                <li><strong>'Expertise' selector to switch how many languages are available.</strong></li>
                <li><strong>Reworked the 'Difficulty' selector to mesh better with the new 'Expertise' system.</strong></li>
-               <li><strong>30 new languages are now available (that's a lot!), for a total of 82.</strong><ul><li>
-                <strong>Also includes complete refactor of the select menu (it's alphabetized now!!)</strong>
-               </li></ul></li>
+               <li>
+                  <strong>30 new languages are now available (that's a lot!), for a total of 82.</strong>
+                  <ul>
+                     <li>
+                        <strong>Also includes complete refactor of the select menu (it's alphabetized now!!)</strong>
+                     </li>
+                  </ul>
+               </li>
                <li><strong>Rewritten description (the text blurbs above this) to help new players.</strong></li>
-               <li>Fixed several long-standing issues with the code snippet display window<ul>
-                  <li>It was too wide for its <span class="code-inline">&lt;div&gt;</span></li>
-                  <li>Its whitespace wrapping was incorrectly configured</li>
-                  <li>Inconsistently displaying on small screens</li>
-               </ul></li>
+               <li>
+                  Fixed several long-standing issues with the code snippet display window
+                  <ul>
+                     <li>It was too wide for its <span class="code-inline">&lt;div&gt;</span></li>
+                     <li>Its whitespace wrapping was incorrectly configured</li>
+                     <li>Inconsistently displaying on small screens</li>
+                  </ul>
+               </li>
                <li>Fixed issue where language files would fail for a mysterious reason</li>
                <li>Fixed my ▒▛░▎▍ty regex causing the censor function to fail in some circumstances</li>
-               <li>Fixed race conditions that caused search to time out<ul><li>Okay, it's not <em>all</em> fixed, but I've exposed some helpful logging so you'll at least know if it happens.</li>
-                <li>Blame it on the <span class="code-inline">async/await</span>s, not me.</li></ul></li>
-               <li><span class="code-inline">/src</span> and <span class="code-inline">/lib</span> directories are now prioritized, which should reduce breadth-search times significantly
-               <ul><li>I have also blacklisted some paths, such as <span class="code-inline">/node_modules</span> and <span class="code-inline">/dist</span> to stop memory consumption from getting out of hand.</li></ul></li>
+               <li>
+                  Fixed race conditions that caused search to time out
+                  <ul>
+                     <li>Okay, it's not <em>all</em> fixed, but I've exposed some helpful logging so you'll at least know if it happens.</li>
+                     <li>Blame it on the <span class="code-inline">async/await</span>s, not me.</li>
+                  </ul>
+               </li>
+               <li>
+                  <span class="code-inline">/src</span> and <span class="code-inline">/lib</span> directories are now prioritized, which should reduce breadth-search times significantly
+                  <ul>
+                     <li>I have also blacklisted some paths, such as <span class="code-inline">/node_modules</span> and <span class="code-inline">/dist</span> to stop memory consumption from getting out of hand.</li>
+                  </ul>
+               </li>
                <li>
                   Added protections so that you will no longer get ""10-line snippets"" with lines of whitespace
                   <ul>
@@ -171,18 +183,15 @@
          <br><br><br>
          <p class="footer">Released under MIT License. By Jason Cheng. Find source code <a href="https://github.com/71cj34/fooguessr">here</a>.</p>
       </div>
-
-
-<div id="modal" class="modal-hidden">
-  <div class="modal-overlay"></div>
-  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <button id="modal-close" aria-label="Close modal">&times;</button>
-    <h2 id="modal-title">Languages</h2>
-    <div class="modal-body" id="table-here">
-    </div>
-  </div>
-</div>
-
+      <div id="modal" class="modal-hidden">
+         <div class="modal-overlay"></div>
+         <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button id="modal-close" aria-label="Close modal">&times;</button>
+            <h2 id="modal-title">Languages</h2>
+            <div class="modal-body" id="table-here">
+            </div>
+         </div>
+      </div>
       <button style="opacity: 0.8; transform-origin: right; transform: scale(0.8); background-color: white; color: black; border-style: solid; border-width: 1px; border-color: black" id="switch-fonts">
       Switch Fonts
       </button>
