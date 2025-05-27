@@ -115,8 +115,8 @@ let style = document.createElement('style');
     style.textContent = `
 
     table {
-  border-collapse: collapse; /* Ensures borders are not doubled */
-  width: 100%; /* Optional, adjust as needed */
+  border-collapse: collapse;
+  width: 100%;
 }
 
 table, th, td {
@@ -126,7 +126,6 @@ table, th, td {
     display: none;
   }
   
-  /* Modal visible */
   .modal-visible {
     display: block;
     position: fixed;
@@ -172,7 +171,6 @@ table, th, td {
     flex-grow: 1;
   }
 
-  /* Prevent body scroll when modal is open */
   body.modal-open {
     overflow: hidden;
   }
