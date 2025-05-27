@@ -223,19 +223,20 @@ export async function getSnippet(lang) {
         output.innerText += "\nSearching repositories for language...";
         let repos = [];
         let attempts = 0;
+        let page = 1;
 
         while (repos.length === 0 && attempts < 5) {
-            const page = 1 + getRandomInt(5);
             try {
                 repos = await searchRepos(language, page);
             } catch (e) {
                 console.warn('Error fetching repos:', e.message);
             }
             attempts++;
+            page++; // Increment page sequentially
         }
 
         if (repos.length === 0) {
-            console.error('No repositories found.');
+            console.error(`No repositories found for lang=${language}.`);
             return;
         }
 
@@ -283,23 +284,37 @@ export async function getSnippet(lang) {
 
             const subDirs = filterDirectories(contents);
 
-            // if at root level, prioritize /src
+            // if at root level, prioritize /src, /lib
             if (currentPath === '') {
-                // if src exists
+                // if src/lib exists
                 const srcDirObj = subDirs.find(dir => dir.name.toLowerCase() === 'src');
-                if (srcDirObj) {
+                const libDirObj = subDirs.find(dir => dir.name.toLowerCase() === 'lib');
+                if (srcDirObj || libDirObj) {
                     // Enqueue src directory first
-                    dirQueue.unshift(srcDirObj.path);
+                    for (let i of [srcDirObj, libDirObj]) {
+                        try {
+                            dirQueue.unshift(i.path);
+                        } catch (e) {
+                            continue
+                        }
+                    }
+                    
                     // Enqueue the rest (except src)
+                    let blacklistDirs = ['src', 'lib',
+                        'node_modules', '.git', 'vendor', 'external', '.vite', '__pycache__', 'logs', 'log', 'build', 'dist', 'out'
+                    ]
+
                     for (const dir of subDirs) {
-                        if (dir.name.toLowerCase() !== 'src') {
+                        if (!blacklistDirs.includes(dir.name.toLowerCase())) {
                             dirQueue.push(dir.path);
                         }
                     }
                 } else {
                     // No src directory, enqueue all
                     for (const dir of subDirs) {
-                        dirQueue.push(dir.path);
+                        if (!blacklistDirs.includes(dir.name.toLowerCase())) {
+                            dirQueue.push(dir.path);
+                        }                    
                     }
                 }
             } else {
@@ -314,7 +329,7 @@ export async function getSnippet(lang) {
         if (selectedFiles.length === 0) {
             fileSearchCount = 0;
             fileSearchMessageIndex = -1;
-            output.innerHTML = `<span style='color: red'>'Error:', No ${language} source files found in the repository.</span>`;
+            output.innerHTML = `<span style='color: red'>'Error:', No ${language} source files found in the repository ${repo}.</span>`;
             console.error(`No ${language} source files found in the repository.`);
             return;
         }
@@ -357,7 +372,7 @@ export async function getSnippet(lang) {
 
         if (!successfulFile) {
             output.innerHTML += `<span style='color: red'>\nError: None of the selected ${language} files contained enough usable code lines.</span>`;
-            console.error(`None of the selected ${language} files contained enough usable code lines.`);
+            console.error(`None of the selected ${language} files from ${repo} contained enough usable code lines.`);
             return;
         }
 

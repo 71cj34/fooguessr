@@ -18,6 +18,27 @@
          transform: scale(1.18);
          transform-origin: left;
          }
+         pre {
+    overflow-x: auto;        /* Enable horizontal scrolling */
+    white-space: pre-wrap;   /* Allow lines to wrap */
+    word-wrap: break-word;   /* Break long words */
+    max-width: 100%;         /* Prevent overflow wider than container */
+}
+
+.code_block {
+    display: block;
+    font-size: 0.95em;
+    font-family: "Inconsolata", monospace;
+    background-color: #f6f6f6;
+    border: 1px solid #ddd;
+    padding: 10px;
+    color: black;
+    cursor: pointer;
+    white-space: pre-wrap;   /* wrap long lines */
+    max-width: 100%;         /* fit inside container */
+    overflow-x: auto;        /* allow scrolling if needed */
+    box-sizing: border-box;  /* include padding and border in width */
+}
       </style>
    </head>
    <body>
@@ -59,7 +80,7 @@
                            <br><br>
 
          <!-- <p id="rounds">ROUND <span id="round-1">x</span> OF <span id="round-2">x</span>:</p> -->
-         <pre data-start="1" class="line-numbers" id="pre" style="max-width: 95%; overflow-x: auto; white-space: nowrap;"><code class="code_block" id="operating-table" style="width: 100%; max-width: 100%;">Press the button above to start!</code></pre>
+         <pre data-start="1" class="line-numbers" id="pre" style="width: 100%; overflow-x: auto"><code class="code_block" id="operating-table" style="width: 100%; max-width: 100%; white-space:nowrap;">Press the button above to start!</code></pre>
          <div>
             <select id="programmingLanguages" name="programmingLanguages">
             </select>
@@ -103,7 +124,7 @@
          <div class="devlog">
             <strong style="font-size: 1.75rem">DEVLOG</strong>
             <hr style="margin-top: 0.5vh;">
-            <strong>May 25, 2025</strong>
+            <strong>May 26, 2025</strong>
             <p>After forgetting about this project for 10 days, this will be publicly released. I am working on server-side authentication with 
                <a href="https://developers.cloudflare.com/d1/">Cloudflare D1</a> (shoutout Cloudflare for being so cheap btw) and a TypeScript serverside worker. This will allow you to sign in, save your scores, watch a leaderboard, 
                and maybe even... multiplayer?
@@ -119,13 +140,17 @@
                 <strong>Also includes complete refactor of the select menu (it's alphabetized now!!)</strong>
                </li></ul></li>
                <li><strong>Rewritten description (the text blurbs above this) to help new players.</strong></li>
-               
-
+               <li>Fixed several long-standing issues with the code snippet display window<ul>
+                  <li>It was too wide for its <span class="code-inline">&lt;div&gt;</span></li>
+                  <li>Its whitespace wrapping was incorrectly configured</li>
+                  <li>Inconsistently displaying on small screens</li>
+               </ul></li>
                <li>Fixed issue where language files would fail for a mysterious reason</li>
                <li>Fixed my ▒▛░▎▍ty regex causing the censor function to fail in some circumstances</li>
                <li>Fixed race conditions that caused search to time out<ul><li>Okay, it's not <em>all</em> fixed, but I've exposed some helpful logging so you'll at least know if it happens.</li>
                 <li>Blame it on the <span class="code-inline">async/await</span>s, not me.</li></ul></li>
-               <li><span class="code-inline">/src</span> directories are now prioritized, which should reduce depth-search times significantly</li>
+               <li><span class="code-inline">/src</span> and <span class="code-inline">/lib</span> directories are now prioritized, which should reduce breadth-search times significantly
+               <ul><li>I have also blacklisted some paths, such as <span class="code-inline">/node_modules</span> and <span class="code-inline">/dist</span> to stop memory consumption from getting out of hand.</li></ul></li>
                <li>
                   Added protections so that you will no longer get ""10-line snippets"" with lines of whitespace
                   <ul>
