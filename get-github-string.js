@@ -203,6 +203,9 @@ function getDifficultySelection(name) {
     return "Classic"; // default fallback
 }
 
+let blacklistDirs = ['src', 'lib',
+    'node_modules', '.git', 'vendor', 'external', '.vite', '__pycache__', 'logs', 'log', 'build', 'dist', 'out'
+]
 
 // i hate you i hate you i hate you i hate you i hate you es6
 export let languages = Object.keys(languageExtensions);
@@ -300,9 +303,7 @@ export async function getSnippet(lang) {
                     }
                     
                     // Enqueue the rest (except src)
-                    let blacklistDirs = ['src', 'lib',
-                        'node_modules', '.git', 'vendor', 'external', '.vite', '__pycache__', 'logs', 'log', 'build', 'dist', 'out'
-                    ]
+
 
                     for (const dir of subDirs) {
                         if (!blacklistDirs.includes(dir.name.toLowerCase())) {
@@ -452,8 +453,8 @@ function maskItems(text, mask) {
 
     const escapedTerms = mask.map(term => term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
 
-    const boundaryBefore = "(^|[ \\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
-    const boundaryAfter = "($|[ \\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
+    const boundaryBefore = "(^|[ \\\/\\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
+    const boundaryAfter = "($|[ \\\/\\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
 
     const regex = new RegExp(
         `${boundaryBefore}(?:${escapedTerms.join('|')})${boundaryAfter}`,
