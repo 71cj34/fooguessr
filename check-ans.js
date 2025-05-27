@@ -1,4 +1,4 @@
-import { language, repo, dupletLines, selectedFile, keyyy } from './get-github-string.js';
+import { language, repo, dupletLines, selectedFile, reveal, keyyy } from './get-github-string.js';
 
 function youWin() {
     let style = document.createElement('style');
@@ -91,7 +91,7 @@ document.getElementById('submit').addEventListener('click', async () => {
     let url = 'https://github.com/' + repo.full_name + '/tree/' + defaultBranch + '/' + selectedFile.path + "#L" + dupletLines[1].split(" - ")[0] + "-L" + dupletLines[1].split(" - ")[1];
 
 
-    reveal = document.getElementById('reveal');
+    // reveal = document.getElementById('reveal');
     reveal.style.display = 'inline-block';
 
     // classes are for cowards

@@ -209,6 +209,7 @@ let blacklistDirs = ['src', 'lib',
 
 // i hate you i hate you i hate you i hate you i hate you es6
 export let languages = Object.keys(languageExtensions);
+export let reveal = document.getElementById('reveal');
 export let language = "";
 export let keyyy = shf.split("").reverse().join("");
 export let repo = "";
@@ -219,8 +220,8 @@ export async function getSnippet(lang) {
         selectedFile = null;
         language = lang;
 
-        reveal = document.getElementById('reveal');
         reveal.style.display = 'none';
+        console.log(reveal);
 
         output.innerHTML = "<span style='color: #fffbd6'> If this textbox freezes for more than 5 seconds, open your browser console and check for errors.</span>\n\nLoading code snippet...";
         output.innerText += "\nSearching repositories for language...";
