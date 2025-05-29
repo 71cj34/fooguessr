@@ -24,23 +24,27 @@ function pulseElement(id, color, bgcolor) {
         delete el.dataset.transitionTimeout;
     }
 
-    el.style.transition = 'color 0.5s ease, background-color 0.5s ease';
+    el.style.transition = 'color 1s ease, background-color 1s ease';
+
     el.style.color = (color === '') ? originalColor : color;
     el.style.backgroundColor = (bgcolor === '') ? originalBg : bgcolor;
 
-   const colorTimeout = setTimeout(() => {
+    const pulseDuration = 2000; 
+
+    const colorTimeout = setTimeout(() => {
         el.style.color = originalColor;
         el.style.backgroundColor = originalBg;
 
         delete el.dataset.pulseTimeout;
-    }, 500);
+    }, pulseDuration);
 
     el.dataset.pulseTimeout = colorTimeout; // Store the timeout ID
 
+    // clear transition after pulse duration + transition time
     const transitionTimeout = setTimeout(() => {
         el.style.transition = '';
         delete el.dataset.transitionTimeout;
-    }, 1000);
+    }, pulseDuration + 1000);
 
-    el.dataset.transitionTimeout = transitionTimeout
+    el.dataset.transitionTimeout = transitionTimeout;
 }
