@@ -81,7 +81,7 @@ let languageList = {
         "Jupyter Notebook": ["ipynb"],
         Lean: ["lean", "hlean"],
         Liquid: ["liquid"],
-        Mathemtica: ["nb", "wl", "nbp", "m", "wlt"],
+        Mathematica: ["nb", "wl", "nbp", "m", "wlt"],
         Processing: ["pde"],
         Ragel: ["rl", "ragel"],
         AutoHotkey: ["ahk"],
