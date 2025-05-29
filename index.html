@@ -216,8 +216,11 @@
          import { getSnippet, getRandomInt, languages } from './get-github-string.js';
          
          document.getElementById('generateButton').addEventListener('click', async () => {
-             console.log(languages);
            await getSnippet(languages[getRandomInt(languages.length)]);
+         // console.log(languages[66]);
+         // console.log(languages);
+         //   await getSnippet(languages[66]);
+
          });
       </script>
    </body>
