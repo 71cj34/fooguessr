@@ -24,9 +24,8 @@ function youWin() {
 }
 
 
-/* Optional adjustments */
-/* Adjust the radial size and fade out */
-/* .pulseGlow {
+
+.pulseGlow {
   animation: pulseGlow 1.5s ease-out infinite;
 }
 
@@ -40,7 +39,7 @@ function youWin() {
   100% {
       box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
   }
-} */
+}
     `
     document.head.appendChild(style);
 }
@@ -53,18 +52,38 @@ function youLose() {
   animation-iteration-count: 1;
 }
 
+html {
+  animation: pulseGlow 1.5s ease-out;
+}
+
 @keyframes pulseRed {
   0% {
-    color: initial; /* Or your original background color */
-    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); /* No glow initially */
+    color: initial;
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
   }
   50% {
-    color: rgba(255, 0, 0, 0.5); /* Semi-transparent green */
-    box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); /* Expanding glow */
+    color: rgba(255, 0, 0, 0.9);
+    box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
   }
   100% {
     color: initial; /* Back to original */
-    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); /* No glow */
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+  }
+}
+
+.pulseGlow {
+  animation: pulseGlow 1.5s ease-out infinite;
+}
+
+@keyframes pulseGlow {
+  0% {
+      background-color: 0 0 0 0 rgba(255, 0, 0, 0.9);
+  }
+  70% {
+      background-color: 0 0 0 10px rgba(0, 255, 0, 0);
+  }
+  100% {
+      background-color: 0 0 0 0 rgba(0, 255, 0, 0);
   }
 }
     `
@@ -102,7 +121,7 @@ document.getElementById('submit').addEventListener('click', async () => {
     <code class="code-inline special-code">${selectedFile.path.split("/")[1] ? selectedFile.path.split("/")[1] : selectedFile.path}</code></a>. ${language != ans.value ? "Better luck next time..." : "Keep it up!"}
     
     <br><br>
-    Press the 'Run Snippet' button to try again.
+    Press the 'Roll Snippet' button to try again.
     </div>
     
 `
