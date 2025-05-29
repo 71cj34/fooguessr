@@ -1,0 +1,46 @@
+function pulseElement(id, color, bgcolor) {
+    const el = document.getElementById(id);
+    if (!el) {
+        console.warn(`Element with id "${id}" not found.`);
+        return;
+    }
+
+    if (!el.dataset.originalColor) {
+        el.dataset.originalColor = el.style.color || getComputedStyle(el).color;
+        el.dataset.originalBg = el.style.backgroundColor || getComputedStyle(el).backgroundColor;
+    }
+
+    const originalColor = el.dataset.originalColor;
+    const originalBg = el.dataset.originalBg;
+
+
+    if (el.dataset.pulseTimeout) {
+        clearTimeout(el.dataset.pulseTimeout);
+        delete el.dataset.pulseTimeout;
+    }
+
+    if (el.dataset.transitionTimeout) {
+        clearTimeout(el.dataset.transitionTimeout);
+        delete el.dataset.transitionTimeout;
+    }
+
+    el.style.transition = 'color 0.5s ease, background-color 0.5s ease';
+    el.style.color = (color === '') ? originalColor : color;
+    el.style.backgroundColor = (bgcolor === '') ? originalBg : bgcolor;
+
+   const colorTimeout = setTimeout(() => {
+        el.style.color = originalColor;
+        el.style.backgroundColor = originalBg;
+
+        delete el.dataset.pulseTimeout;
+    }, 500);
+
+    el.dataset.pulseTimeout = colorTimeout; // Store the timeout ID
+
+    const transitionTimeout = setTimeout(() => {
+        el.style.transition = '';
+        delete el.dataset.transitionTimeout;
+    }, 1000);
+
+    el.dataset.transitionTimeout = transitionTimeout
+}

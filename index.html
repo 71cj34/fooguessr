@@ -100,12 +100,14 @@
          </ul>
          <p><strong>Expertise</strong> controls how many languages are allowed:</p>
          <ul>
-            <li><strong>Beginner:</strong> only recognizable, distinct languages</li>
+            <li><strong>Beginner:</strong> only recognizable, distinct languages.</li>
             <li><strong>Intermediate:</strong> adds some ambiguous/trickier languages</li>
             <li><strong>Advanced:</strong> includes most popular languages (if you played before the public release, this was the only setting!)</li>
             <li><strong>Impossible:</strong> every 'regular' programming language, especially obscure ones not in Advanced</li>
             <li><strong>These Aren't Even Languages:</strong> adds several markup/syntactical languages (e.g., <span class="code-inline">Makefile</span>, <span class="code-inline">LaTeX</span>) to include single language in the game!</li>
-            <li><a id="lang-popup">Click here for a breakdown of the languages...</a></li>
+            <li>You may see exactly what languages are added each successive level by checking the <a href="#programmingLanguages" onclick="pulseElement('programmingLanguages', '', 'gold')">(Choose a Language)</a> dropdown above and selecting different expertises (automatically updates).<ul><li>
+               Alternatively, <a id="lang-popup"><strong>click here for a full breakdown of the languages...</strong></a>
+            </li></ul></li>
          </ul>
          <p>
             Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I 
@@ -206,6 +208,8 @@
       Switch Fonts
       </button>
       <script src="check-ans.js" type="module"></script>
+            <script src="pulse.js"></script>
+
       <script src="https://jasoncheng.me/assets/switchfonts.js"></script>
       <script src="lang-popup.js" type="module"></script>
       <script type="module">
