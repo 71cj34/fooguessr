@@ -38,6 +38,14 @@
          overflow-x: auto;
          box-sizing: border-box;
          }
+         .sc {
+         display: none;
+         }
+         @media (max-width: 600px) {
+         .sc {
+         display: inline;
+         }
+         }
       </style>
    </head>
    <body>
@@ -46,6 +54,9 @@
          A <strong>browser-based game</strong> where you guess the programming language of a random snippet from Github based on just 10 lines of code, inspired by <a href="https://www.geoguessr.com/" target="_blank">GeoGuessr</a>.
       </p>
       <p>See <a href="#info">below</a> for more information.</p>
+      <p style="color: red; font-weight: bold;" class="sc">
+         You appear to be on a small screen. It is <span style="text-decoration: underline;">highly</span> recommended to play in landscape mode or on desktop. Or don't. I'm a <span class="code-inline">&lt;span&gt;</span>, not a cop. 
+      </p>
       <div class="app">
          <div style="display: flex; gap: 1rem;">
             <div style="border-style: solid; border-width: 1px; max-width: fit-content; border-radius: 5px">
@@ -105,9 +116,14 @@
             <li><strong>Advanced:</strong> includes most popular languages (if you played before the public release, this was the only setting!)</li>
             <li><strong>Impossible:</strong> every 'regular' programming language, especially obscure ones not in Advanced</li>
             <li><strong>These Aren't Even Languages:</strong> adds several markup/syntactical languages (e.g., <span class="code-inline">Makefile</span>, <span class="code-inline">LaTeX</span>) to include single language in the game!</li>
-            <li>You may see exactly what languages are added each successive level by checking the <a href="#programmingLanguages" onclick="pulseElement('programmingLanguages', '', 'gold')">(Choose a Language)</a> dropdown above and selecting different expertises (automatically updates).<ul><li>
-               Alternatively, <a id="lang-popup"><strong>click here for a full breakdown of the languages...</strong></a>
-            </li></ul></li>
+            <li>
+               You may see exactly what languages are added each successive level by checking the <a href="#programmingLanguages" onclick="pulseElement('programmingLanguages', '', 'gold')">(Choose a Language)</a> dropdown above and selecting different expertises (automatically updates).
+               <ul>
+                  <li>
+                     Alternatively, <a id="lang-popup"><strong>click here for a full breakdown of the languages...</strong></a>
+                  </li>
+               </ul>
+            </li>
          </ul>
          <p>
             Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I 
@@ -121,7 +137,7 @@
          <div class="devlog">
             <strong style="font-size: 1.75rem">DEVLOG</strong>
             <hr style="margin-top: 0.5vh;">
-                        <strong>May 30, 2025</strong>
+            <strong>May 30, 2025</strong>
             <p>
                So I didn't release publicly on May 26. This is because I spotted more bugs that needed to be fixed, I fixed them, and I merged those changelogs with the May 26 patch logs.
             </p>
@@ -192,10 +208,20 @@
                Known issues:
             </p>
             <ul>
-               <li>Some languages, notably Regex and Brain▒▆▓█, often fail if selected as the mystery language. <ul><li>
-                  This is because they are either part of another file (so my extension mapping system fails), or are rarely 7-15 lines (Regexes are usually 1 line, for example).
-               </li></ul></li>
-               <li>The interface is still a little sketchy on mobile.<ul><li>Again, if you see an issue or have any suggestions, either use <a target="_blank" href="https://github.com/71cj34/fooguessr/issues">Github Issues</a> or <a target="_blank" href="mailto:hello@jasoncheng.me">email me.</a></li></ul></li>
+               <li>
+                  Some languages, notably Regex and Brain▒▆▓█, often fail if selected as the mystery language. 
+                  <ul>
+                     <li>
+                        This is because they are either part of another file (so my extension mapping system fails), or are rarely 7-15 lines (Regexes are usually 1 line, for example).
+                     </li>
+                  </ul>
+               </li>
+               <li>
+                  The interface is still a little sketchy on mobile.
+                  <ul>
+                     <li>Again, if you see an issue or have any suggestions, either use <a target="_blank" href="https://github.com/71cj34/fooguessr/issues">Github Issues</a> or <a target="_blank" href="mailto:hello@jasoncheng.me">email me.</a></li>
+                  </ul>
+               </li>
                <li>The search algorithm is still not perfect. If you need to wait for like 100 searches until it finds a good file, sorry, but it's way less than the 200+ searches it used to take in some instances.</li>
             </ul>
             <strong>May 15, 2025</strong>
@@ -219,8 +245,7 @@
       Switch Fonts
       </button>
       <script src="check-ans.js" type="module"></script>
-            <script src="pulse.js"></script>
-
+      <script src="pulse.js"></script>
       <script src="https://jasoncheng.me/assets/switchfonts.js"></script>
       <script src="lang-popup.js" type="module"></script>
       <script type="module">
@@ -231,7 +256,7 @@
          // console.log(languages[66]);
          // console.log(languages);
          //   await getSnippet(languages[66]);
-
+         
          });
       </script>
    </body>

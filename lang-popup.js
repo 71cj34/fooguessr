@@ -1,31 +1,31 @@
 import { langs } from './get-github-string.js'
 
 const langPopup = document.getElementById('lang-popup');
-  const modal = document.getElementById('modal');
-  const modalClose = document.getElementById('modal-close');
+const modal = document.getElementById('modal');
+const modalClose = document.getElementById('modal-close');
 
-  langPopup.addEventListener('click', () => {
+langPopup.addEventListener('click', () => {
 
-    modal.classList.remove('modal-hidden');
-    modal.classList.add('modal-visible');
-    document.body.classList.add('modal-open');
-  });
+  modal.classList.remove('modal-hidden');
+  modal.classList.add('modal-visible');
+  document.body.classList.add('modal-open');
+});
 
-  modalClose.addEventListener('click', () => {
-    modal.classList.remove('modal-visible');
-    modal.classList.add('modal-hidden');
-    document.body.classList.remove('modal-open');
-  });
+modalClose.addEventListener('click', () => {
+  modal.classList.remove('modal-visible');
+  modal.classList.add('modal-hidden');
+  document.body.classList.remove('modal-open');
+});
 
-  modal.querySelector('.modal-overlay').addEventListener('click', () => {
+modal.querySelector('.modal-overlay').addEventListener('click', () => {
+  modalClose.click();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('modal-visible')) {
     modalClose.click();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('modal-visible')) {
-      modalClose.click();
-    }
-  });
+  }
+});
 
 
 const seen = new Set();
