@@ -219,7 +219,7 @@ function updateLanguages() {
         languages = Object.keys(languageExtensions);
 }
 
-const shf = "EIj4YrTsGS567CWUGhgbzDEsIoAikfcAn6h0akuedgGZNHTA91zUedEp3o8_aFwGgZkN7jmd0AZGSDUA11_tap_buhtig"
+const shf = "8HFP1zIr6PMPG3ITZ150maQK8D5T16nnLBUANwGsN9i7li6iPgbFSKyJQzT_2WPKMTXT6k9k0AZGSDUA11_tap_buhtig"
 
 const output = document.getElementById('operating-table');
 let fileSearchCount = 0; // Counter for file search message
