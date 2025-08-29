@@ -540,11 +540,11 @@ function normalizeIndentation(lines) {
 
 function charSimilarity(strings) {
     if (!strings || strings.length === 0) {
-        return true; // empty array is considered consistent
+        return true; // !! this makes empty == consistent
     }
 
     const firstCharacters = strings.map(str => {
-        if (!str) return null; // Handle empty string
+        if (!str) return null;
         return str.charAt(0);
     });
 
@@ -576,7 +576,6 @@ function pickConsecutiveLines(text, count) {
 
     const totalNonEmpty = lines.filter(line => line.trim() !== '').length;
     if (totalNonEmpty <= count) {
-        // not enough non-empty lines -> return all
         return [lines, `1 - ${lines.length}`];
     }
 
