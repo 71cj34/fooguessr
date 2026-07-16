@@ -389,7 +389,7 @@ export async function getSnippet(lang) {
 
             output.innerHTML += `\nPicking <span style='color: #a24a4b'>${linesToSample}</span> consecutive lines...`;
 
-            const [lines, range] = pickConsecutiveLines(content, linesToSample);
+            const [lines, range] = pickConsecutiveLines(content, linesToSample, owner, repoName);
 
             if (!lines || lines.length === 0 || lines.filter(line => line.trim() !== '').length < linesToSample) {
                 output.innerText += `\nFile did not have enough non-empty lines, trying next file...`;
@@ -569,8 +569,13 @@ function charSimilarity(strings) {
     return percentage >= 60;
 }
 
-function pickConsecutiveLines(text, count) {
-    const maskedTerms = [language, ...languageExtensions[language]];
+function pickConsecutiveLines(text, count, owner, repoName) {
+    const helpfull_comments = [
+        `github.com/${owner}/${repoName}`,
+        `github.com/${repoName}`,
+        repoName,
+    ];
+    const maskedTerms = [language, ...languageExtensions[language], ...helpfull_comments];
     const lines = maskItems(normalizeIndentation(text.split(/\r?\n/)), maskedTerms);
     if (lines.length === 0) return [];
 
