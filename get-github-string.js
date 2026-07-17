@@ -132,7 +132,7 @@ let languageList = {
             "crc32",
         ],
         Email: ["eml", "msg", "mbox", "mail"],
-        JSON: ["json", "4DForm", "4DProject", "avsc", "geojson", "gltf", "har", "ice", "JSON-tmLanguage", "json.example", "jsonl", "mcmeta", "sarif", "tact", "tfstate", "tfstate.backup", "topojson", "webapp", "webmanifest", "yy", "yyp"],
+        JSON: ["json", "4DForm", "4DProject", "avsc", "geojson", "gltf", "har", "ice", "JSON-tm", "json.example", "jsonl", "mcmeta", "sarif", "tact", "tfstate", "tfstate.backup", "topojson", "webapp", "webmanifest", "yy", "yyp"],
         "Rich Text Format": ["rtf"],
         SASS: ["sass", "scss"],
         TOML: ["toml", "pipfile"],
@@ -282,7 +282,8 @@ export async function getSnippet(lang) {
         }
 
         if (repos.length === 0) {
-            console.error(`No repositories found for lang=${language}.`);
+            const flanguage = language === "C/C++" ? "C or C++" : language;
+            console.error(`No repositories found for lang=${flanguage}.`);
             return;
         }
 
@@ -334,7 +335,7 @@ export async function getSnippet(lang) {
             if (currentPath === '') {
                 const priorityDirs = ['src', 'lib', 'source', 'app', 'pkg', 'main'];
                 const prioritySubDirs = subDirs.filter(dir => priorityDirs.includes(dir.name.toLowerCase()));
-                
+
                 for (let dir of prioritySubDirs) {
                     try {
                         dirQueue.unshift(dir.path);
@@ -420,7 +421,7 @@ export async function getSnippet(lang) {
 
 
 async function searchRepos(language, page = 1) {
-    const flanguage = language === "C/C++" ? random.choice(["C","C++"]) : language;
+    const flanguage = language === "C/C++" ? ["C","C++"][getRandomInt(2)] : language;
     const params = new URLSearchParams({
         q: `language:${flanguage}`,
         sort: 'stars',
