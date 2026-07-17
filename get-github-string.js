@@ -97,6 +97,7 @@ let languageList = {
         AutoHotkey: ["ahk", "ahkl"],
         Brainfuck: ["bf", "b"],
         Dockerfile: ["dockerfile", "containerfile"],
+        Prolog: ["prolog", "pl", "plt", "pro", "yap"],
         "G-Code": ["gcode", "nc", "cnc", "gco"],
         LLVM: ["ll"],
         "TI Program": ["8xp", "8xp.txt"],
@@ -116,7 +117,6 @@ let languageList = {
         Gradle: ["gradle"],
         ASP: ["aspx", "ascx", "ashx", "asmx", "config"],
         CSV: ["csv"],
-        "LTSpice Symbol": ["asc", "asy", "plt"],
         Checksum: [
             "cksum",
             "sha256",
@@ -268,6 +268,7 @@ export async function getSnippet(lang) {
         selectedFile = null;
         language = lang;
 
+      language = "LTSpice Symbol"
         reveal.style.display = 'none';
         console.log(reveal);
 
