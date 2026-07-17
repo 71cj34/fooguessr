@@ -485,17 +485,36 @@ function maskItems(text, mask) {
 
     const escapedTerms = mask.map(term => term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
 
-    const boundaryBefore = "(^|[ \\\/\\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
-    const boundaryAfter = "($|[ \\\/\\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
+    // We treat short terms (<=2 chars) and long terms (>2 chars) differently to avoid partial matches.
+    // e.g., "C" should not match "class", but "groovy" can match "GroovySomething".
+    const shortTerms = [];
+    const longTerms = [];
 
-    const regex = new RegExp(
-        `${boundaryBefore}(?:${escapedTerms.join('|')})${boundaryAfter}`,
-        'gi'
+    // Separate terms into short and long
+    for (const term of mask) {
+        if (term.length <= 2)
+            shortTerms.push(term);
+        else
+            longTerms.push(term);
+    }
+
+    // Regex for short terms with word boundaries to avoid partial matches, and long terms without boundaries.
+    // e.g., C, R...
+    const shortRegex = new RegExp(
+        `\\b(?:${shortTerms.join("|")})\\b`,
+        "gi"
     );
 
-    const maskedText = text.replace(regex, (match, g1, g2) => {
-        return g1 + '█'.repeat(match.length - g1.length - g2.length) + g2;
-    });
+    // Regex for long terms without word boundaries to catch them anywhere in the text.
+    // e.g., zig, rust...
+    const longRegex = new RegExp(
+        `${longTerms.join("|")}`,
+        "gi"
+    );
+
+    // Replacing the matched terms with █ characters of the same length to mask them.
+    const maskedText = text.replace(shortRegex, match => "█".repeat(match.length))
+        .replace(longRegex, match => "█".repeat(match.length));
 
     return maskedText.split("ʥʥʥʥʥ");
 }
