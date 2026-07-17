@@ -55,7 +55,7 @@
       </p>
       <p>See <a href="#info">below</a> for more information.</p>
       <p style="color: red; font-weight: bold;" class="sc">
-         You appear to be on a small screen. It is <span style="text-decoration: underline;">highly</span> recommended to play in landscape mode or on desktop. Or don't. I'm a <span class="code-inline">&lt;span&gt;</span>, not a cop. 
+         You appear to be on a small screen. It is <span style="text-decoration: underline;">highly</span> recommended to play in landscape mode or on desktop. Or don't. I'm a <span class="code-inline">&lt;span&gt;</span>, not a cop.
       </p>
       <div class="app">
          <div style="display: flex; gap: 1rem;">
@@ -75,6 +75,15 @@
                   <label><input type="radio" name="expertise" value="Advanced">Advanced</label>
                   <label><input type="radio" name="expertise" value="Impossible">Impossible</label>
                   <label><input type="radio" name="expertise" value="Impossible-er">These Aren't Even Languages</label>
+               </div>
+            </div>
+            <div style="border-style: solid; border-width: 1px; max-width: fit-content; border-radius: 5px">
+               <div style="margin: 1em">
+                  <p><strong style="font-family: var(--head); font-size: 1.25em;">Extra:</strong></p>
+                  <label>
+                     <input type="checkbox" id="strictCensors">Strict Censors
+                     <span style="cursor: pointer; font-size: 0.75em; vertical-align: super; margin-left: -0.5em;" id="strictCensorsHelp">?</span>
+                  </label>
                </div>
             </div>
          </div>
@@ -126,7 +135,7 @@
             </li>
          </ul>
          <p>
-            Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I 
+            Languages were chosen on a highly selective and rigorous basis, i.e whatever languages in GitHub's <a href="https://github.com/github-linguist/linguist" target="#blank">Linguist</a> system I
             had heard of at some point for any reason. Kindly do not ask me to include Malbolge or whatever esolang conceived by programmers from the Siberian wilderness you personally champion.
             (Brain▒▙█ is an exception because we &lt;3 Brain▟▒▀).
          </p>
@@ -149,8 +158,8 @@
                File extension matching has also been completely reworked and revamped, hopefully reducing the amount of times where the program can't find a matching file in a repo.
             </p>
             <strong>May 26, 2025</strong>
-            <p>After forgetting about this project for 10 days, this will be publicly released. I am working on server-side authentication with 
-               <a href="https://developers.cloudflare.com/d1/">Cloudflare D1</a> (shoutout Cloudflare for being so cheap btw) and a TypeScript serverside worker. This will allow you to sign in, save your scores, watch a leaderboard, 
+            <p>After forgetting about this project for 10 days, this will be publicly released. I am working on server-side authentication with
+               <a href="https://developers.cloudflare.com/d1/">Cloudflare D1</a> (shoutout Cloudflare for being so cheap btw) and a TypeScript serverside worker. This will allow you to sign in, save your scores, watch a leaderboard,
                and maybe even... multiplayer?
             </p>
             <p>No promises!</p>
@@ -209,7 +218,7 @@
             </p>
             <ul>
                <li>
-                  Some languages, notably Regex and Brain▒▆▓█, often fail if selected as the mystery language. 
+                  Some languages, notably Regex and Brain▒▆▓█, often fail if selected as the mystery language.
                   <ul>
                      <li>
                         This is because they are either part of another file (so my extension mapping system fails), or are rarely 7-15 lines (Regexes are usually 1 line, for example).
@@ -241,6 +250,16 @@
             </div>
          </div>
       </div>
+      <div id="strictCensorsModal" class="modal-hidden">
+         <div class="modal-overlay"></div>
+         <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="strictCensorsModal-title">
+            <button id="strictCensorsModal-close" aria-label="Close modal">&times;</button>
+            <h2 id="strictCensorsModal-title" style="margin-bottom: 0em">Strict Censors</h2>
+            <div class="modal-body">
+               <p>Not only will the censor remove all mention of the language or its extensions, but replace the entire word <em style="font-size: 70%; color: #aaa">(the block bounded by two word boundaries, in regex terms)</em> with a fixed-width block! No more 1-digit censorscumming to suss out a C-like language...</p>
+            </div>
+         </div>
+      </div>
       <button style="opacity: 0.8; transform-origin: right; transform: scale(0.8); background-color: white; color: black; border-style: solid; border-width: 1px; border-color: black" id="switch-fonts">
       Switch Fonts
       </button>
@@ -250,13 +269,25 @@
       <script src="lang-popup.js" type="module"></script>
       <script type="module">
          import { getSnippet, getRandomInt, languages } from './get-github-string.js';
-         
+
          document.getElementById('generateButton').addEventListener('click', async () => {
            await getSnippet(languages[getRandomInt(languages.length)]);
          // console.log(languages[66]);
          // console.log(languages);
-         //   await getSnippet(languages[66]);
-         
+           // await getSnippet(languages[20]);
+
+         });
+
+         document.getElementById('strictCensorsHelp').addEventListener('click', () => {
+            document.getElementById('strictCensorsModal').classList.remove('modal-hidden');
+         });
+
+         document.getElementById('strictCensorsModal-close').addEventListener('click', () => {
+            document.getElementById('strictCensorsModal').classList.add('modal-hidden');
+         });
+
+         document.querySelector('#strictCensorsModal .modal-overlay').addEventListener('click', () => {
+            document.getElementById('strictCensorsModal').classList.add('modal-hidden');
          });
       </script>
    </body>

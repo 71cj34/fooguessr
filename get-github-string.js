@@ -239,6 +239,12 @@ function getDifficultySelection(name) {
     return "Classic"; // default fallback
 }
 
+// helper to get strictCensors toggle value
+function getStrictCensors() {
+    const checkbox = document.getElementById('strictCensors');
+    return checkbox ? checkbox.checked : false;
+}
+
 let blacklistDirs = [
     'src', 'lib',
     'node_modules', '.git', 'vendor', 'external', '.vite', '__pycache__', 'logs', 'log', 'build', 'dist', 'out',
@@ -472,7 +478,7 @@ async function fetchFileContent(file) {
     return await res.text();
 }
 
-function maskItems(text, mask) {
+function maskItems(text, mask, strict = false) {
     if (Array.isArray(text)) {
         text = text.join("ʥʥʥʥʥ");
     }
@@ -482,6 +488,15 @@ function maskItems(text, mask) {
     }
 
     const escapedTerms = mask.map(term => term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
+
+    if (strict) {
+        const regex = new RegExp(
+            `\\b(?:${escapedTerms.join('|')})\\b`,
+            'gi'
+        );
+        const maskedText = text.replace(regex, '<REDACTED>');
+        return maskedText.split("ʥʥʥʥʥ");
+    }
 
     const boundaryBefore = "(^|[^a-zA-Z0-9])";
     const boundaryAfter = "($|[^a-zA-Z0-9])";
@@ -574,7 +589,7 @@ function pickConsecutiveLines(text, count, owner, repoName) {
         repoName,
     ];
     const maskedTerms = [language, ...languageExtensions[language], ...helpfull_comments];
-    const lines = maskItems(normalizeIndentation(text.split(/\r?\n/)), maskedTerms);
+    const lines = maskItems(normalizeIndentation(text.split(/\r?\n/)), maskedTerms, getStrictCensors());
     if (lines.length === 0) return [];
 
     const totalNonEmpty = lines.filter(line => line.trim() !== '').length;
