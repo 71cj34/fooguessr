@@ -78,10 +78,9 @@ function createTable() {
     html += `    <tr><td>${lang}</td>`;
 
     for (let colLevel = 1; colLevel <= levelsCount; colLevel++) {
-      if (lvl >= colLevel) {
+      if (lvl <= colLevel) {
         // show checkmarks equal to col level
-        const checks = '✓'.repeat(colLevel);
-        html += `<td style="text-align:center;">${checks}</td>`;
+        html += `<td style="text-align:center;">✓</td>`;
       } else {
         html += `<td></td>`;
       }
@@ -122,20 +121,20 @@ table, th, td {
   .modal-hidden {
     display: none;
   }
-  
+
   .modal-visible {
     display: block;
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: 1000;
   }
-  
+
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.5);
   }
-  
+
   .modal-content {
     position: fixed;
     top: 50%;
@@ -151,7 +150,7 @@ table, th, td {
     display: flex;
     flex-direction: column;
   }
-  
+
   #modal-close {
     align-self: flex-end;
     font-size: 1.5rem;
@@ -161,7 +160,7 @@ table, th, td {
     padding: 0.5rem 1rem;
     line-height: 1;
   }
-  
+
   .modal-body {
     overflow-y: auto;
     padding: 1rem 1.5rem 1.5rem;
