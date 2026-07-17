@@ -24,7 +24,7 @@ let languageList = {
         PHP: ["php", "aw", "ctp", "fcgi", "inc", "php3", "php4", "php5", "phps", "phpt"],
         Regex: ["regex", "re", "exp", "regexp"],
         SQL: ["sql", "cql", "ddl", "inc", "mysql", "prc", "tab", "udf", "viw", "pgsql"],
-        C: ["c", "h", "cats", "h.in", "idc"],
+        "C/C++": ["c", "h", "cats", "idc", "cpp", "cc", "cxx", "hpp", "hh", "hxx", "cp", "cc", "c++", "cppm", "inl", "ino", "ipp", "ixx", "tcc", "tpp", "txx"],
         Powershell: ["ps1", "psm1", "psd1"],
     },
     1: {
@@ -32,7 +32,6 @@ let languageList = {
         Batch: ["bat", "cmd"],
         COBOL: ["cbl", "cob", "ccp", "cobol", "cpy"],
         "C#": ["cs", "cake", "cs.pp", "csx", "linq"],
-        "C++": ["cpp", "cc", "cxx", "hpp", "hh", "hxx", "cp", "cc", "c++", "cppm", "inl", "ino", "ipp", "ixx", "tcc", "tpp", "txx"],
         D: ["d", "di"],
         CoffeeScript: ["coffee", "_coffee", "cjsx", "iced"],
         Dart: ["dart"],
@@ -85,6 +84,7 @@ let languageList = {
         WebAssembly: ["wasm", "wast", "wat"],
         Bibtex: ["bib", "bibtex"],
         CUDA: ["cu", "cuh"],
+        Elm: ["elm"],
         Handlebars: ["hbs", "handlebars", "htmlbars"],
         Jinja: ["j2", "jinja", "jinja2", "tpl"],
         "Jupyter Notebook": ["ipynb"],
@@ -116,6 +116,7 @@ let languageList = {
         Gradle: ["gradle"],
         ASP: ["aspx", "ascx", "ashx", "asmx", "config"],
         CSV: ["csv"],
+        "LTSpice Symbol": ["asc", "asy", "plt"],
         Checksum: [
             "cksum",
             "sha256",
@@ -424,8 +425,9 @@ export async function getSnippet(lang) {
 
 
 async function searchRepos(language, page = 1) {
+    const flanguage = language === "C/C++" ? random.choice(["C","C++"]) : language;
     const params = new URLSearchParams({
-        q: `language:${language}`,
+        q: `language:${flanguage}`,
         sort: 'stars',
         order: 'desc',
         per_page: '30',
