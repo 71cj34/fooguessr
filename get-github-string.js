@@ -220,6 +220,8 @@ function updateLanguages() {
         languages = Object.keys(languageExtensions);
 }
 
+// btw this key is fine grained to only allow search perms...
+// yes i know it is still a horrible idea objectively
 const shf = "8HFP1zIr6PMPG3ITZ150maQK8D5T16nnLBUANwGsN9i7li6iPgbFSKyJQzT_2WPKMTXT6k9k0AZGSDUA11_tap_buhtig"
 
 const output = document.getElementById('operating-table');
@@ -237,8 +239,14 @@ function getDifficultySelection(name) {
     return "Classic"; // default fallback
 }
 
-let blacklistDirs = ['src', 'lib',
-    'node_modules', '.git', 'vendor', 'external', '.vite', '__pycache__', 'logs', 'log', 'build', 'dist', 'out'
+let blacklistDirs = [
+    'src', 'lib',
+    'node_modules', '.git', 'vendor', 'external', '.vite', '__pycache__', 'logs', 'log', 'build', 'dist', 'out',
+    'test', 'tests', 'spec', 'specs', '__tests__', '__test__',
+    'docs', 'doc', 'documentation', 'man',
+    '.github', '.vscode', '.idea', '.circleci', '.travis',
+    'bower_components', 'jspm_packages', 'pnpm-store',
+    'target', 'bin', 'obj', 'gen', 'generated'
 ]
 
 // i hate you i hate you i hate you i hate you i hate you es6
@@ -322,35 +330,22 @@ export async function getSnippet(lang) {
 
             const subDirs = filterDirectories(contents);
 
-            // if at root level, prioritize /src, /lib
+            // if at root level, prioritize source directories
             if (currentPath === '') {
-                // if src/lib exists
-                const srcDirObj = subDirs.find(dir => dir.name.toLowerCase() === 'src');
-                const libDirObj = subDirs.find(dir => dir.name.toLowerCase() === 'lib');
-                if (srcDirObj || libDirObj) {
-                    // Enqueue src directory first
-                    for (let i of [srcDirObj, libDirObj]) {
-                        try {
-                            dirQueue.unshift(i.path);
-                        } catch (e) {
-                            continue
-                        }
+                const priorityDirs = ['src', 'lib', 'source', 'app', 'pkg', 'main'];
+                const prioritySubDirs = subDirs.filter(dir => priorityDirs.includes(dir.name.toLowerCase()));
+                
+                for (let dir of prioritySubDirs) {
+                    try {
+                        dirQueue.unshift(dir.path);
+                    } catch (e) {
+                        continue
                     }
-                    
-                    // Enqueue the rest (except src)
+                }
 
-
-                    for (const dir of subDirs) {
-                        if (!blacklistDirs.includes(dir.name.toLowerCase())) {
-                            dirQueue.push(dir.path);
-                        }
-                    }
-                } else {
-                    // No src directory, enqueue all
-                    for (const dir of subDirs) {
-                        if (!blacklistDirs.includes(dir.name.toLowerCase())) {
-                            dirQueue.push(dir.path);
-                        }                    
+                for (const dir of subDirs) {
+                    if (!blacklistDirs.includes(dir.name.toLowerCase()) && !priorityDirs.includes(dir.name.toLowerCase())) {
+                        dirQueue.push(dir.path);
                     }
                 }
             } else {
