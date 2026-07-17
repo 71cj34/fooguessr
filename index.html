@@ -146,6 +146,43 @@
          <div class="devlog">
             <strong style="font-size: 1.75rem">DEVLOG</strong>
             <hr style="margin-top: 0.5vh;">
+
+            <strong>July 16, 2026</strong>
+            <p>
+               Funny story! So I completely forgot about this project.
+            </p>
+            <p>
+                This update brings some fixes and long-running gripes I've had.
+            </p>
+            <ul>
+                <li>
+                    Combined C/C++ into one, and randomize which one it picks if C/C++ is chosen
+                </li>
+                <li>
+                    Removed Regex, replaced with Elm
+                    <ul>
+                        <li>
+                            <em>By the way, Regex has legitimately never worked once...</em>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Added Prolog to get us to a nice round 100 languages at TAEL difficulty
+                </li>
+                <li>
+                    Added a lot more prioritized/blacklisted directories to hopefully speed up search times
+                </li>
+                <li>
+                    Updated censoring word boundaries by default to be all non-alphanumeric characters
+                </li>
+                <li>
+                    Updated censoring logic to also censor Git repositories, thanks to <a href="https://github.com/SorenDeveloppement">@SorenDeveloppement</a>!
+                </li>
+                <li>
+                    Added a <strong>Strict Censor</strong> setting to fixed-width &lt;REDACTED&gt; all detected terms out of existence, plus the rest of the word it rode it on
+                </li>
+            </ul>
+            <hr style="margin-top: 0.5vh;">
             <strong>May 30, 2025</strong>
             <p>
                So I didn't release publicly on May 26. This is because I spotted more bugs that needed to be fixed, I fixed them, and I merged those changelogs with the May 26 patch logs.
