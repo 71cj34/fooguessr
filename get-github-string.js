@@ -482,8 +482,8 @@ function maskItems(text, mask) {
 
     const escapedTerms = mask.map(term => term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
 
-    const boundaryBefore = "(^|[ \\\/\\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
-    const boundaryAfter = "($|[ \\\/\\t\\n\\.\\,\\;\\:\\(\\)\\[\\]\\{\\}\\<\\>\\-\\_\\\"'])";
+    const boundaryBefore = "(^|[^a-zA-Z0-9])";
+    const boundaryAfter = "($|[^a-zA-Z0-9])";
 
     const regex = new RegExp(
         `${boundaryBefore}(?:${escapedTerms.join('|')})${boundaryAfter}`,
