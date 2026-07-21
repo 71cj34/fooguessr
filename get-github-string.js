@@ -268,7 +268,6 @@ export async function getSnippet(lang) {
         selectedFile = null;
         language = lang;
 
-      language = "LTSpice Symbol"
         reveal.style.display = 'none';
         console.log(reveal);
 
